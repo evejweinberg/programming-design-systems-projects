@@ -6,23 +6,50 @@ var r = new Rune({
     debug: true
 });
 
-var scaleUp = 2;
+
+
+var scaleUp = 1;
 var TristartsX = 0; //start top left triangle
 var TristartsY = 0; //start top left triangle
 var invertedStartX = TristartsX; //temporary set to start
-var triheight = 30*scaleUp;
-var Vpadding = 40 * scaleUp;
-var Hpadding = 20*scaleUp;
-var triwidth = 30*scaleUp;
-var NumOfFirstRow = 12;
-var kTotal =5;
-var triangleGroup = r.group(0,0)
+var triheight = 30 * scaleUp;
+var Vpadding = 20 * scaleUp;
+var Hpadding = 10 * scaleUp;
+var triwidth = 30 * scaleUp;
+var NumOfFirstRow = 13; //must be odd, want to fix that
 
+var kTotal = 9;
+
+
+
+
+var coneCenterx = r.width / 2;
+var coneCentery = 300;
+var scoopRad = NumOfFirstRow * triwidth * .9;
+
+  //● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● 
+r.ellipse(coneCenterx, coneCentery, scoopRad, scoopRad)
+    .fill(0)
+    .stroke(0);
+
+
+
+  // ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ 
+r.rect(0, 0, r.width, 50 + r.height / 2)
+    .fill(false)
+    .stroke(255)
+    .strokeWidth(120)
+
+
+
+
+
+var triangleGroup = r.group(r.width / 2 - (NumOfFirstRow / 2 * (triwidth)) + Hpadding * (3.5), 400)
 for (var k = 0; k < kTotal; k++) { //4 vertical rows
-  
+
     for (var j = 0; j < NumOfFirstRow - 2 * k; j++) { //
-        console.log('k is ' + k + ' | j is ' + j)
-        console.log('tristartX  ' + TristartsX)
+        // console.log('k is ' + k + ' | j is ' + j)
+        // console.log('tristartX  ' + TristartsX)
         var tri2x = TristartsX + triwidth;
         var tri2y = TristartsY;
         var tri3x = TristartsX + triwidth / 2;
@@ -38,23 +65,28 @@ for (var k = 0; k < kTotal; k++) { //4 vertical rows
         }
 
         //▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶ ▶
-        r.triangle(TristartsX + (Hpadding * j), TristartsY + (Vpadding * k), tri2x + (Hpadding * j), tri2y + (Vpadding * k), tri3x + (Hpadding * j), tri3y + (Vpadding * k), triangleGroup).stroke(0).fill(false).strokeWidth(3) // use triangle() once
+        r.triangle(TristartsX + (Hpadding * j), TristartsY + (Vpadding * k), tri2x + (Hpadding * j), tri2y + (Vpadding * k), tri3x + (Hpadding * j), tri3y + (Vpadding * k), triangleGroup).stroke(0).fill(false).strokeWidth(4) // use triangle() once
 
         //un-invert it
         if (j % 2 == 1) { //
             TristartsX = invertedStartX;
             tri2x = tri2x - Hpadding;
             tri3x = tri3x - Hpadding;
-            TristartsY = TristartsY - triheight; 
-            TristartsX = TristartsX + triwidth; 
+            TristartsY = TristartsY - triheight;
+            TristartsX = TristartsX + triwidth;
         }
-    
+
     } // j ends
 
     //move from end triangle of each line to first triangle of next line
-TristartsX = (Hpadding*k)+(Hpadding)+(k*(triwidth/2));
-    // TristartsX = TristartsX - ((triwidth) * (4-k))+Hpadding; 
-    TristartsY = TristartsY + triheight; 
+    if (k==0){
+ TristartsX = (Hpadding * k) + (Hpadding) + (k * (triwidth / 2))+(Hpadding/1.5);
+    } else{
+       TristartsX = (Hpadding * k) + (Hpadding) + (k * (triwidth / 2));
     }
+   
+    // TristartsX = TristartsX - ((triwidth) * (4-k))+Hpadding; 
+    TristartsY = TristartsY + triheight;
+}
 
-    r.draw();
+r.draw();

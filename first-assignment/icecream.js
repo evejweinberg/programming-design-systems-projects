@@ -1,7 +1,7 @@
 //ignore this
 var r = new Rune({
     container: "#canvas",
-    width: 200,
+    width: 800,
     height: 800,
     debug: true
 });
@@ -14,7 +14,7 @@ var coneCenterx = 365;
 var coneCentery = 257;
 var scoopRad = 180;
 var coneTopWidth = 100;
-
+  //● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● 
 r.ellipse(coneCenterx, coneCentery, scoopRad, scoopRad)
     .fill(0)
     .stroke(0);
@@ -27,7 +27,7 @@ var myGroup = r.group(200, 200).rotate(0);
 var triangleGroup = r.group(200, 40);
 
 function Cone(rotation, negative, pushRight, pushDown, tilt) {
-  //● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● 
+
 
 
     var a = 183; //height of the curves peak

@@ -35,13 +35,15 @@ r.ellipse(scoopCenterx, coneCentery, scoopRad, scoopRad)
 
 
 var sprinklesGroup = r.group(scoopCenterx - 50, coneCentery - (scoopRad))
-    // ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ 
+
 if (sprinkles == true) {
     var spRot = 45,
         spStroke = false,
         spFill = 255,
         spWidth = 2.5,
-        spHeight = 12, xMult =0, yMult=0;
+        spHeight = 12,
+        xMult = 0,
+        yMult = 0;
 }
 for (var i = 0; i < 6; i++) { //rows
     if (sprinkles == false) {
@@ -50,22 +52,15 @@ for (var i = 0; i < 6; i++) { //rows
     }
     for (var j = 0; j < 9; j++) { //sprinkles per row
         console.log(i + '  ' + j)
-        r.rect(25 * j+xMult, 30 * i+yMult, spWidth, spHeight, sprinklesGroup).fill(spFill).stroke(spStroke).rotate(spRot);
+         // ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ 
+        r.rect(25 * j + xMult, 30 * i + yMult, spWidth, spHeight, sprinklesGroup).fill(spFill).stroke(spStroke).rotate(spRot);
 
     }
     if (i == 4) {
 
         sprinkles = false;
     }
-
-
 }
-// r.rect(0, 0, r.width, 50 + r.height / 2)
-//     .fill(false)
-//     .stroke(255)
-//     .strokeWidth(120)
-
-
 
 
 
@@ -73,8 +68,7 @@ var triangleGroup = r.group(r.width / 2 - ((NumOfFirstRow / 4.3) * (triwidth + H
 for (var k = 1; k < kTotal; k++) { //4 vertical rows
 
     for (var j = 0; j < NumOfFirstRow - 2 * k; j++) { //
-        // console.log('k is ' + k + ' | j is ' + j)
-        // console.log('tristartX  ' + TristartsX)
+
         var tri2x = TristartsX + triwidth;
         var tri2y = TristartsY;
         var tri3x = TristartsX + triwidth / 2;
@@ -110,7 +104,7 @@ for (var k = 1; k < kTotal; k++) { //4 vertical rows
         TristartsX = (Hpadding * k) + (Hpadding) + (k * (triwidth / 2));
     }
 
-    // TristartsX = TristartsX - ((triwidth) * (4-k))+Hpadding; 
+
     TristartsY = TristartsY + triheight;
 }
 

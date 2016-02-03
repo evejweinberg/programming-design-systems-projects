@@ -5,7 +5,7 @@ var r = new Rune({
 });
 
 // Create a new Rune.Font object
-var f = new Rune.Font("Roboto-Regular.ttf");
+var f = new Rune.Font("Thin Skinned.ttf");
 
 // load() will actually load the font file and call the function
 // when the loading is done.
@@ -13,7 +13,7 @@ f.load(function(err) {
 
   // Get a path of the text "Rune" from the font
   // a x,y 200,200 and font size 120.
-  var path = f.toPath("Rune", 150, 200, 200)
+  var path = f.toPath("Hi Eve", 150, 200, 200)
     .fill(255, 0, 0)
 
   // We need to specifically add the new path to the stage,

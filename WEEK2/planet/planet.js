@@ -4,6 +4,9 @@ var r = new Rune({
     height: 800
 });
 
+Path();
+
+function Path(){
 var decrement = .8;
 var planet = r.group(0,0).rotate(-45).move(0,0)
 for (var g = 2; g < 28; g++) {
@@ -34,7 +37,7 @@ r.ellipse(250,250,10,10,planet).fill(255).rotate(30)
 r.ellipse(190,190,24,24,planet).fill(255).rotate(45)
 
 // var planet = r.group(0,0).rotate(45)
-
+}
 
 r.draw();
 

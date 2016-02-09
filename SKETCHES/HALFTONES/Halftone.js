@@ -15,38 +15,41 @@ var cpoints = {
 };
 
 //ref RED circle
-r.ellipse(cpoints.c[0], cpoints.c[1], cpoints.r, cpoints.r).fill(255, 0, 0);
+// r.ellipse(cpoints.c[0], cpoints.c[1], cpoints.r, cpoints.r).fill(255, 0, 0);
 
 function drawHalftone(point1, size) {
+    console.log(size);
     r.ellipse(point1[0], point1[1], size, size)
         .fill(0);
 }
 
 
-function eyes(){
-    r.ellipse(0,0,20,20).fill(255).stroke(0);
-     r.ellipse(0,0,10,10).fill(255).stroke(0);
-      r.ellipse(0,0,5,5).fill(0).stroke(0);
-}
 
 
 
-// Create a new Rune.Font object
+
+
 for (var i = 0; i < 100; i++) {
     for (var j = 0; j < 100; j++) {
         var pt1 = [i * spacing, j * spacing];
         // console.log(pt1)
 
         var halftoneDot = [pt1[0], pt1[1]];
-        if (size < 0) {
-            size = 0
+        if (size <= 0) {
+            size = 1;
         }
-        if (pointInCircle(halftoneDot, cpoints.c, cpoints.r)) {
+
+        if (dist(pt1[0], pt1[1], cpoints.c[0], cpoints.c[1]) < cpoints.r/2){
+            console.log('yes', pt1)
             drawHalftone(pt1, size)
-            // console.log(size)
-
 
         }
+        // if (pointInCircle(halftoneDot, cpoints.c, cpoints.r)) {
+        //     drawHalftone(pt1, size)
+        //     // console.log(size)
+
+
+        // }
         size = size - decrementsize;
     }
 }
@@ -63,7 +66,8 @@ function vecSub(a, b) {
 // test if a point is in a circle
 //  */
 function pointInCircle(p, c, r) {
-    var dist = vecSub(c, p);
+    
+    //var dist = vecSub(c, p);
     if (magnitude(dist) <= r) {
         return true;
     } else {
@@ -74,3 +78,13 @@ function pointInCircle(p, c, r) {
 function magnitude(vec) {
     return Math.sqrt(Math.pow(vec[0], 2) + Math.pow(vec[1], 2));
 }
+
+
+function dist(x1, y1, z1, x2, y2, z2) {
+  if (arguments.length === 4) {
+    // In the case of 2d: z1 means x2 and x2 means y2
+    return Math.sqrt( (z1-x1)*(z1-x1) + (x2-y1)*(x2-y1) );
+  } else if (arguments.length === 6) {
+    return Math.sqrt( (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1) );
+  }
+};

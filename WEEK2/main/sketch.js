@@ -3,7 +3,7 @@ var r = new Rune({
     width: 600,
     height: 800
 });
-var randomOn = false;
+var randomOn = true;
 var gridBoxW = 12;
 var gridBoxH = 16;
 var gridSpaceW = r.width / gridBoxW;
@@ -22,11 +22,14 @@ var faceWidth = 190,
     faceHeight = 80;
 var radWide = 60;
 var radMid = 35;
+var scaleUp = 1;
 if (randomOn == true) {
     var pathParent = r.group(Rune.random(r.width), Rune.random(400));
-    pathParent.scale(2)
+  
 } else {
-    var pathParent = r.group(r.width / 2, 50)
+    var pathParent = r.group(r.width / 2, 50).scale(2);
+
+    
 }
 var planet = r.group(0, 0).rotate(-65).move(Rune.random(400), Rune.random(400))
 
@@ -62,7 +65,7 @@ for (var k = 0; k < 9; k++) {
     } else {
         Dashwidth = 2
     }
-    r.circle(0, 0, sunRad - 100 + (k * 60)).stroke(255).strokeWidth(Dashwidth).strokeDash("10").fill(false).addParent(pathParent)
+    r.circle(0, 0, sunRad - 100 + (k * 60)).stroke(255).scale(scaleUp).strokeWidth(Dashwidth).strokeDash("10").fill(false).addParent(pathParent)
 
 }
 
@@ -75,13 +78,14 @@ var start = 130;
 var spread = 42;
 for (var p = 0; p < 9; p++) {
     if (p < 2 || p > 3) {
-        r.circle(start + (p * spread), start + (p * spread), Rune.random(9, 33), planet).fill(black).stroke(white).rotate(Rune.random(30, 55)).addParent(pathParent)
+        r.circle(start + (p * spread), start + (p * spread), Rune.random(9, 33), planet).fill(black).stroke(white).scale(scaleUp).rotate(Rune.random(30, 55)).addParent(pathParent)
     } else if (p == 2) {
-        r.circle(start + (p * spread), start + (p * spread), 30, planet).fill(white).stroke(white).rotate(rotateRand2).addParent(pathParent)
+        r.circle(start + (p * spread), start + (p * spread), 30, planet).fill(white).stroke(white).rotate(rotateRand2).scale(scaleUp).addParent(pathParent)
 
         r.rect(start + (p * spread) - planetPaddingEarth, start + (p * spread) + planetPaddingEarth, 6, 100).fill(white).rotate(rotateRand2).addParent(pathParent);
         r.triangle(start + (p * spread) - planetPaddingEarth, start + (p * spread) + planetPaddingEarth, start + (p * spread) - planetPaddingEarth - 10, start + (p * spread) + planetPaddingEarth + 15, start + (p * spread) - planetPaddingEarth + 10, start + (p * spread) + planetPaddingEarth + 15, planet)
             .rotate(rotateRand2)
+            .scale(scaleUp)
             .fill(white)
             .stroke(white)
             .strokeWidth(4)
@@ -95,6 +99,7 @@ for (var p = 0; p < 9; p++) {
             .fill(white)
             .stroke(white)
             .strokeWidth(4)
+            .scale(scaleUp)
             .addParent(pathParent);
 
     }
@@ -115,15 +120,15 @@ if (randomOn == true) {
     var astronaut = r.group(0, 390).rotate(0);
 }
 
-var trail1 = r.group(0,0).rotate(-20).move(100,100);
-//spaceshitDust trails
-for (var i = 0; i < 30; i++) {
-    var circdist = 2
-    r.circle(circdist * i * (i * .13), 0, circdist * 6.6,trail1)
-    .fill(white).stroke(black)
-    .strokeWidth(1);
-}
-r.triangle(0,0,60,0,30,40,trail1).fill(white).move(90,0).strokeWidth(10).strokeCap("round");
+// var trail1 = r.group(0,0).rotate(-20).move(100,100);
+// //spaceshitDust trails
+// for (var i = 0; i < 30; i++) {
+//     var circdist = 2
+//     r.circle(circdist * i * (i * .13), 0, circdist * 6.6,trail1)
+//     .fill(white).stroke(black)
+//     .strokeWidth(1);
+// }
+// r.triangle(0,0,60,0,30,40,trail1).fill(white).move(90,0).strokeWidth(10).strokeCap("round");
 
 
 var backpackwidth = faceWidth * 1.2;

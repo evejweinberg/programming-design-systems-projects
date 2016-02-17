@@ -18,7 +18,7 @@ var randomvalue;
 var bgRandom;
 var r = new Rune({
     container: "#canvas",
-    width: rw,
+    width: rw+30,
     height: rh - 200,
     debug: true
 });
@@ -85,7 +85,7 @@ function Everything() {
 
     r = new Rune({
         container: "#canvas",
-        width: rw,
+        width: rw+30,
         height: rh - 200,
         debug: true
     });

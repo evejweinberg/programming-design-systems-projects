@@ -31,6 +31,7 @@ Everything();
 $('#refresh').click(function() {
     // location.reload();
     // $("#canvas").html('');
+    $("#canvas").empty();
     Everything();
     $("svg").css({ "background-color": bgRandom });
     $("button").css({ "background-color": bgRandom });
@@ -38,12 +39,7 @@ $('#refresh').click(function() {
 });
 ////////////////
 $('#save').click(function() {
-    // var canvas = document.getElementById("canvas");
-    // var canvas = $("#canvas");
-    // saveCanvas(canvas, 'myCanvas', 'jpg');
-    // var img   = canvas.toDataURL("image/png");
-    // document.write('<img src="'+img+'"/>');
-    //crowbar();
+    crowbar();
 
     // var c = document.getElementById("canvas");
     // var link = document.getElementById('canvas');

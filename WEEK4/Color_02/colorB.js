@@ -5,7 +5,7 @@ var rotateMore = 90;
 var r = new Rune({
     container: "#canvas",
     width: 1200,
-    height: 1200,
+    height: 2200,
     debug: true
 });
 var lineCol = 190;
@@ -16,6 +16,7 @@ var colorDegree = 360 / stepsAroundCircle;
 var colorVariationSteps = 10;
 var circleradius = 10;
 var buckArray = [];
+
 
 var Buckcol1 = { //pink
     'h': "343",
@@ -64,7 +65,22 @@ buckArray.push(Buckcol4)
 buckArray.push(Buckcol5)
 buckArray.push(Buckcol6)
 buckArray.push(Buckcol7)
-    // console.log(buckArray)
+
+/////100 off?
+
+// for (i in buckArray) {
+//     var push100 = 0;
+
+//     colors[i].values.hsl[0] = colors[i].values.hsl[0] + push100;
+//    console.log( console.log(colors[i].values.hsl[0]))
+// // //     // Buckcol1.h = Buckcol1.h + push100;
+// // //     // Buckcol2.h = Buckcol2.h + push100;
+// // //     // Buckcol3.h = Buckcol3.h + push100;
+// // //     // Buckcol4.h = Buckcol4.h + push100;
+// // //     // Buckcol5.h = Buckcol5.h + push100;
+// // //     // Buckcol6.h = Buckcol6.h + push100;
+// }
+
 
 
 ///////////GROUPS//////////////////////////////////
@@ -103,25 +119,25 @@ for (var j = 0; j < 4; j++) {
 
 for (var j = 0; j < 4; j++) {
     for (var i = 0; i < 24; i++) {
-        var squareWidthoptions = [50,50,50,100,50,50,50,400,50,50];
+        var squareWidthoptions = [50, 50, 50, 100, 50, 50, 50, 400, 50, 50];
         var chooseOne = Rune.random(squareWidthoptions.length);
-        console.log(chooseOne)
+        // console.log(chooseOne)
 
-        RowofSquares(50*i, 50*j,Rune.random(squareWidthoptions.length),50);
-        
+        RowofSquares(50 * i, 50 * j, Rune.random(squareWidthoptions.length), 50);
+
     }
 
 }
 
 for (var j = 0; j < 4; j++) {
     for (var i = 0; i < 24; i++) {
-        var squareWidthoptions = [50,50,50,100,50,50,50,400,50,50];
+        var squareWidthoptions = [50, 50, 50, 100, 50, 50, 50, 400, 50, 50];
         var chooseOne = Math.round(Rune.random(9));
-        console.log(squareWidthoptions[chooseOne])
+        // console.log(squareWidthoptions[chooseOne])
 
 
-        RowofSquares(squareWidthoptions[chooseOne]*i, 600+50*j,squareWidthoptions[chooseOne],50);
-        
+        RowofSquares(squareWidthoptions[chooseOne] * i, 600 + 50 * j, squareWidthoptions[chooseOne], 50);
+
     }
 
 }
@@ -236,9 +252,9 @@ function Circle1(parent, num) {
 
 r.draw();
 
-function RowofSquares(startX, startY,squareWidth, squareHeight) {
+function RowofSquares(startX, startY, squareWidth, squareHeight) {
     ran1 = Math.round(Rune.random(0, 6));
-     
+
     parent = r.group(startX, startY)
     r.rect(0, 0, squareWidth, squareHeight, parent).fill('hsv', buckArray[ran1].h, buckArray[ran1].s, buckArray[ran1].v).stroke(false);
 }

@@ -21,6 +21,8 @@ var r = new Rune({
 });
 var lineCol = 190;
 
+
+
 var colors = [
     new Rune.Color('hsv', 343, 35, 89), //pink 0
     new Rune.Color('hsv', 15, 77, 82), //red  1
@@ -48,9 +50,8 @@ for (i in colors) {
     ///////////////////
     ///////190////////////
     //////////////////
-    
-    // var i = new Rune.Color('hsv', colors[i].values.hsv[0] + colorShift, colors[i].values.hsv[1], colors[i].values.hsv[2]); //pink 0
-    var i = colors[i].copy().rotate(colorShift);
+    // if (colors[i].values.hsv[0] + colorShift > 360) {
+    var i = new Rune.Color('hsv', colors[i].values.hsv[0] + colorShift, colors[i].values.hsv[1], colors[i].values.hsv[2]); //pink 0
     // } else {
     // var i = new Rune.Color('hsv', 360 - colors[i].values.hsv[0] + colorShift, colors[i].values.hsv[1], colors[i].values.hsv[2]); //pink 0
 
@@ -94,12 +95,7 @@ function rowsOfCircles() {
     for (var j = 0; j < 20; j++) {
 
         for (var i = 0; i < 8; i++) {
-            
-            var circleParent1 = r.group(0, 0);
-            circleMatrix.push(circleParent1)
-            var numCircles = circles(0, 0, 100, circleParent1);
-
-            var spacing = 180;// + pastspacing;
+            var spacing = 220 + pastspacing;
 
             var Oddpush;
 
@@ -108,8 +104,10 @@ function rowsOfCircles() {
             } else {
                 Oddpush = 0;
             }
+            var circleParent1 = r.group(i * spacing + Oddpush, j * spacing);
+            circleMatrix.push(circleParent1)
 
-            circleParent1.move(i * spacing + Oddpush - (numCircles * 30), j * spacing);
+            circles(0, 0, 100, circleParent1);
             CircCenterCounter = CircCenterCounter + 1;
             console.log("CircCenterCounter " + CircCenterCounter)
                 //  if (CircCenterCounter>2){
@@ -138,7 +136,7 @@ if (drawDiamonds == true) {
             //make each square
             for (var i = 0; i < 3; i++) {
 
-                TrianglesInSquare(j * 285, k * 300, 45 + rotateMore, TrianglesGroup);
+                TrianglesInSquare((j * 285), k * (300), 45 + rotateMore, TrianglesGroup);
                 rotateMore = rotateMore + 90
             }
 
@@ -270,7 +268,7 @@ function RowofSquares(startX, startY, squareWidth, squareHeight, parentTwo) {
 
 
 function TrianglesInSquare(startX, startY, rotate, parentTwo) {
-    parent = r.group(startX, startY, parentTwo).rotate(rotate, startX, startY);
+    parent = r.group(startX, startY, parentTwo).rotate(rotate, 0, 0, true);
     var squareWidth = 100
     ran1 = Math.round(Rune.random(0, 6));
     ran2 = Math.round(Rune.random(0, 6));
@@ -302,6 +300,7 @@ function circles(x, y, radius, parent) {
             radius = 50
         }
         r.circle(x, y, radius - (i * 24), parent).fill(colors[Math.round(Rune.random(6))]).stroke(false);
+
     }
-    return randomCircnum;
+
 }

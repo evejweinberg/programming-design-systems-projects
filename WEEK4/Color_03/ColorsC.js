@@ -4,8 +4,8 @@
 //add a tiny bit of noise to the circles so they look organic --maybe can't do that bc they are circle objects
 
 var drawRectDiffWidthGrid = false;
-var drawDiamonds = false;
-var drawCircles = true;
+var drawDiamonds = true;
+var drawCircles = false;
 var drawCircletension = false;
 var CircCenterCounter = 0;
 var circleMatrix = [];
@@ -21,13 +21,16 @@ var r = new Rune({
 });
 var lineCol = 190;
 
+var Huebase1 = 486;
+var Huebase2 = 320;
+console.log("Huebase1: "+Huebase1+" || "+"Huebase2: "+Huebase2);
 var colors = [
-    new Rune.Color('hsv', 343, 35, 89), //pink 0
-    new Rune.Color('hsv', 15, 77, 82), //red  1
-    new Rune.Color('hsv', 209, 55, 85), //blue  2 
-    new Rune.Color('hsv', 250, 51, 67), // purple  3
-    new Rune.Color('hsv', 47, 59, 94), //yellow  4
-    new Rune.Color('hsv', 190, 21, 97), //lght blue  5
+    new Rune.Color('hsv', Huebase2, 35, 89), //pink 0
+    new Rune.Color('hsv', Huebase1-235, 77, 82), //red  1
+    new Rune.Color('hsv', Huebase2-134, 55, 85), //blue  2 
+    new Rune.Color('hsv', Huebase1, 51, 67), // purple  3
+    new Rune.Color('hsv', Huebase1-203, 59, 94), //yellow  4
+    new Rune.Color('hsv', Huebase2-153, 21, 97), //lght blue  5
     new Rune.Color('hsv', 0, 0, 23) //black   6
 ];
 
@@ -44,7 +47,7 @@ for (i in colors) {
     ///////////////////
     //////////////////
     ///////////////////
-    var colorShift = 0;
+    var colorShift = 150;
     ///////////////////
     ///////190////////////
     //////////////////

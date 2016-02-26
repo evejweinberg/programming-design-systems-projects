@@ -2,14 +2,23 @@ var r = new Rune({ container: "#canvas", width: $(window).width(), height: $(win
 // console.log(r)
 
 var placementRand = 0;
+// var colors = [
+//     new Rune.Color('hsv', 52, 100, 100), //pink 0
+//     new Rune.Color('hsv', 320, 100, 100), //red  1
+//     new Rune.Color('hsv', 187, 100, 100), //blue  2 
+//     new Rune.Color('hsv', 229, 100, 100), // purple  3
+//     new Rune.Color('hsv', 152, 100, 100), //green 4
+//     new Rune.Color('hsv', 358, 100, 100), //lght blue  5
+//     new Rune.Color('hsv', 197, 100, 100), //blue  2 
+// ];
 var colors = [
-    new Rune.Color('hsv', 52, 100, 100), //pink 0
-    new Rune.Color('hsv', 320, 100, 100), //red  1
-    new Rune.Color('hsv', 187, 100, 100), //blue  2 
-    new Rune.Color('hsv', 229, 100, 100), // purple  3
-    new Rune.Color('hsv', 152, 100, 100), //green 4
-    new Rune.Color('hsv', 358, 100, 100), //lght blue  5
-    new Rune.Color('hsv', 197, 100, 100), //blue  2 
+    new Rune.Color('hsv', 316,26,84), //purple
+    new Rune.Color('hsv', 7,32,100), //light pink
+    new Rune.Color('hsv', 169,33,88), //green 
+    new Rune.Color('hsv', 343,61,98), // pink
+    new Rune.Color('hsv', 289,31,67), //purple dark
+    new Rune.Color('hsv', 176,41,71), //teal
+    new Rune.Color('hsv', 4,44,99), //orange 
 ];
 var noise = new Rune.Noise().noiseDetail(0);
 var noiseStep = 0;
@@ -28,15 +37,24 @@ var bgLetterCol = bgCol
 var avgStrokeWidth = 3;
 var oneXs = []
 
-
-function rowOfXs(startX, startY) {
-       for (var i = 0; i < 40; i++) {
+function oneX(startX, startY){
     var anycolor = colors[Math.round(Rune.random(colors.length))]
-    var oneX = r.group(startX+letterThickness*i*1.6, startY)
+    var oneX = r.group(startX, startY)
     r.line(0, 0, letterThickness, letterThickness, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
     var anycolor = colors[Math.round(Rune.random(colors.length))]
 
     r.line(0, letterThickness, letterThickness, 0, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
+}
+function rowOfXs(startX, startY) {
+
+       for (var i = 0; i < 40; i++) {
+        oneX(startX+letterThickness*i*1.6, startY)
+    // var anycolor = colors[Math.round(Rune.random(colors.length))]
+    // var oneX = r.group(startX+letterThickness*i*1.6, startY)
+    // r.line(0, 0, letterThickness, letterThickness, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
+    // var anycolor = colors[Math.round(Rune.random(colors.length))]
+
+    // r.line(0, letterThickness, letterThickness, 0, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
 
  
     }
@@ -69,7 +87,7 @@ function vertExtrude(startX, startY) {
         var randVar = Math.round(Rune.random(placementRand));
         var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(-letterThickness * .9, -slantH).lineTo(-letterThickness * .9, letterH - slantH).lineTo(0, letterH);
         var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-        leftBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], -45).stroke(false)
+        leftBar.fill(bgLetterCol).autoFillHatchLines(1, -45).stroke(false)
             // .parent(parent);
     }
 
@@ -80,7 +98,7 @@ function leftBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
     var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH).lineTo(0, letterH);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    leftBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false)
+    leftBar.fill(bgLetterCol).autoFillHatchLines(1, 45).stroke(false)
         // .parent(parent);
 }
 
@@ -90,8 +108,8 @@ function leftBarDoubleV(startX, startY) {
     var leftBarR = r.polygon(startX + randVar + letterThickness / 2, startY + randVar).lineTo(0, 0).lineTo(letterThickness / 2, 0).lineTo(letterThickness / 2, letterH).lineTo(0, letterH);
 
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    leftBarR.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false)
-    leftBarL.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], -45).stroke(false)
+    leftBarR.fill(bgLetterCol).autoFillHatchLines(brightnesses[1], 45).stroke(false)
+    leftBarL.fill(bgLetterCol).autoFillHatchLines(brightnesses[1], -45).stroke(false)
 
 
 }
@@ -100,7 +118,7 @@ function rightBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
     var rightBar = r.polygon(startX + randVar, startY + randVar).lineTo(letterW - letterThickness, 0).lineTo(letterW, 0).lineTo(letterW, letterH).lineTo(letterW - letterThickness, letterH);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    rightBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false);
+    rightBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[2], 45).stroke(false);
 }
 
 
@@ -109,12 +127,13 @@ function centerVBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
     var centerVBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH).lineTo(0, letterH);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    leftBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 180).stroke(false);
+    leftBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[2], 180).stroke(false);
 }
 
 function leftBarThreeQuarters(startX, startY) {
+    oneX(startX,startY+letterH * .55)
     var randVar = Math.round(Rune.random(placementRand));
-    var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH * .6).lineTo(0, letterH * .6);
+    var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH * .5).lineTo(0, letterH * .5);
 
     leftBar.fill(bgLetterCol).autoFillHatchLines(1, 30).stroke(false);
 }
@@ -139,7 +158,7 @@ function bottomBar(startX, startY) {
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
 
     for (var i = 0; i < allShapesInLetter.length; i++) {
-        allShapesInLetter[i].fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false);
+        allShapesInLetter[i].fill(bgLetterCol).autoFillHatchLines(brightnesses[2], 45).stroke(false);
     }
 
 }
@@ -149,7 +168,7 @@ function topBar(startX, startY) {
     var bottomBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterW, 0).lineTo(letterW, letterThickness).lineTo(0, letterThickness);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
 
-    bottomBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false);
+    bottomBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[3], 45).stroke(false);
 }
 
 function crossBar(startX, startY) {
@@ -157,7 +176,7 @@ function crossBar(startX, startY) {
     var crossbar = r.polygon(startX + randVar, startY + randVar).lineTo(letterThickness, letterHmid).lineTo(letterW, letterHmid).lineTo(letterW, letterThickness + letterHmid).lineTo(letterThickness, letterThickness + letterHmid);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
 
-    crossbar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 130).stroke(false);
+    crossbar.fill(bgLetterCol).autoFillHatchLines(brightnesses[2], 130).stroke(false);
 }
 
 

@@ -14,7 +14,7 @@ function U(startX, startY, size) {
 
 function L(startX, startY, size) {
 
-    leftBar(startX, startY);
+    leftBarDoubleV(startX, startY);
     bottomBar(startX, startY);
     vertExtrude(startX, startY)
 }
@@ -27,14 +27,14 @@ function E(startX, startY, size) {
 
     leftBar(startX, startY);
     topBar(startX, startY);
-    crossBar(startX, startY);
+    crossBarwiggle(startX, startY);
     bottomBar(startX, startY);
     vertExtrude(startX, startY)
 }
 
 function H(startX, startY, size) {
 
-    leftBar(startX, startY);
+    leftBarDoubleV(startX, startY);
     rightBar(startX, startY)
     crossBar(startX, startY);
     vertExtrude(startX, startY)
@@ -44,11 +44,13 @@ function H(startX, startY, size) {
 function R(startX, startY, size) {
     HalftoneDots(startX + letterWmid, startY + letterWmid);
 
-    leftBar(startX, startY);
+    leftBarDoubleV(startX, startY);
     diagnalBar(startX, startY)
     vertExtrude(startX, startY)
 
 }
+
+
 
 function T(startX, startY, size) {
 

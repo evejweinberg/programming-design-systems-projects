@@ -16,24 +16,62 @@ var noiseStep = 0;
 var anycolor = colors[Math.round(Rune.random(colors.length))]
 var top, bottom, left, right;
 var scalar = 1;
-var kern = 30*scalar;
-var letterH = 160*scalar;
-var letterW = 100*scalar;
-var letterThickness = (letterW / 5)*scalar;
-var letterWmid = (letterW / 2)*scalar;
-var letterHmid = (letterH / 2)*scalar;
-var slantH = letterH/9;
+var kern = 30 * scalar;
+var letterH = 150 * scalar;
+var letterW = 100 * scalar;
+var letterThickness = (letterW * .16);
+var letterWmid = (letterW / 2);
+var letterHmid = (letterH / 2);
+var slantH = letterH / 9;
+var bgCol = 255
+var bgLetterCol = bgCol
+var avgStrokeWidth = 3;
+var oneXs = []
 
 
+function rowOfXs(startX, startY) {
+       for (var i = 0; i < 40; i++) {
+    var anycolor = colors[Math.round(Rune.random(colors.length))]
+    var oneX = r.group(startX+letterThickness*i*1.6, startY)
+    r.line(0, 0, letterThickness, letterThickness, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
+    var anycolor = colors[Math.round(Rune.random(colors.length))]
 
-function vertExtrude(startX, startY){
-    if (threeD){
+    r.line(0, letterThickness, letterThickness, 0, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
+
+ 
+    }
+}
+
+
+function crossBarwiggle(startX, startY) {
+    // var anycolor = colors[Math.round(Rune.random(colors.length))]
+
     var randVar = Math.round(Rune.random(placementRand));
-    var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(-letterThickness, -slantH).lineTo(-letterThickness, letterH-slantH).lineTo(0, letterH);
+    startX = startX + randVar + letterThickness
+    startY = startY + randVar + letterHmid
+    var both = r.group(startX, startY)
+    var crossbar = r.path(0, 0, both).curveTo(0, 0, letterW / 4, -letterH / 6, letterWmid, 0).curveTo(letterWmid, 0, letterW * .75, letterH / 6, letterW, 0).curveTo(letterW, 0, letterW * 1.25, -letterH / 6, letterW * 1.5, 0);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    leftBar.fill(anycolor).stroke(false)
-    // .parent(parent);
-        }
+
+    crossbar.stroke(anycolor).fill(false).strokeWidth(4);
+    c = crossbar.copy();
+    c.stroke(anycolor).move(0, letterH * .12, both)
+    both.scale(.5)
+
+
+
+}
+
+
+
+function vertExtrude(startX, startY) {
+    if (threeD) {
+        var randVar = Math.round(Rune.random(placementRand));
+        var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(-letterThickness * .9, -slantH).lineTo(-letterThickness * .9, letterH - slantH).lineTo(0, letterH);
+        var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
+        leftBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], -45).stroke(false)
+            // .parent(parent);
+    }
 
 }
 
@@ -42,29 +80,43 @@ function leftBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
     var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH).lineTo(0, letterH);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    leftBar.fill(255).autoFillHatchLines(brightnesses[i]).stroke(false)
-    // .parent(parent);
+    leftBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false)
+        // .parent(parent);
+}
+
+function leftBarDoubleV(startX, startY) {
+    var randVar = Math.round(Rune.random(placementRand));
+    var leftBarL = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness / 2, 0).lineTo(letterThickness / 2, letterH).lineTo(0, letterH);
+    var leftBarR = r.polygon(startX + randVar + letterThickness / 2, startY + randVar).lineTo(0, 0).lineTo(letterThickness / 2, 0).lineTo(letterThickness / 2, letterH).lineTo(0, letterH);
+
+    var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
+    leftBarR.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false)
+    leftBarL.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], -45).stroke(false)
+
+
 }
 
 function rightBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
-    var rightBar = r.polygon(startX + randVar, startY + randVar).lineTo(letterW-letterThickness, 0).lineTo(letterW, 0).lineTo(letterW, letterH).lineTo(letterW-letterThickness, letterH);
+    var rightBar = r.polygon(startX + randVar, startY + randVar).lineTo(letterW - letterThickness, 0).lineTo(letterW, 0).lineTo(letterW, letterH).lineTo(letterW - letterThickness, letterH);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    rightBar.fill(anycolor).autoFillHatchLines(brightnesses[i]).stroke(false);
+    rightBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false);
 }
+
+
 
 function centerVBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
     var centerVBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH).lineTo(0, letterH);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
-    leftBar.fill(255).autoFillHatchLines(brightnesses[i]).stroke(false);
+    leftBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 180).stroke(false);
 }
 
 function leftBarThreeQuarters(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
-    var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterHmid).lineTo(0, letterHmid);
+    var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH * .6).lineTo(0, letterH * .6);
 
-    leftBar.fill(255).autoFillHatchLines(1).stroke(false);
+    leftBar.fill(bgLetterCol).autoFillHatchLines(1, 30).stroke(false);
 }
 
 
@@ -72,7 +124,7 @@ function diagnalBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
 
     var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(letterThickness, letterHmid).lineTo(letterThickness * 2, letterHmid).lineTo(letterW, letterH).lineTo(letterW - letterThickness, letterH);
-    leftBar.fill(255).autoFillHatchLines(1).stroke(false);
+    leftBar.fill(bgLetterCol).autoFillHatchLines(1, 45).stroke(false);
 
 
 
@@ -87,7 +139,7 @@ function bottomBar(startX, startY) {
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
 
     for (var i = 0; i < allShapesInLetter.length; i++) {
-        allShapesInLetter[i].fill(255).autoFillHatchLines(brightnesses[i]).stroke(false);
+        allShapesInLetter[i].fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false);
     }
 
 }
@@ -97,15 +149,15 @@ function topBar(startX, startY) {
     var bottomBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterW, 0).lineTo(letterW, letterThickness).lineTo(0, letterThickness);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
 
-    bottomBar.fill(255).autoFillHatchLines(brightnesses[i]).stroke(false);
+    bottomBar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 45).stroke(false);
 }
 
 function crossBar(startX, startY) {
     var randVar = Math.round(Rune.random(placementRand));
-    var crossbar = r.polygon(startX + randVar, startY + randVar).lineTo(letterThickness, letterHmid).lineTo(letterW, letterHmid).lineTo(letterW, letterThickness+letterHmid).lineTo(letterThickness, letterThickness+letterHmid);
+    var crossbar = r.polygon(startX + randVar, startY + randVar).lineTo(letterThickness, letterHmid).lineTo(letterW, letterHmid).lineTo(letterW, letterThickness + letterHmid).lineTo(letterThickness, letterThickness + letterHmid);
     var brightnesses = [0.5, 1, 0.15, 1.3, 0.4, 1.0, 0.6, 0.35, 0.25, 0.15];
 
-    crossbar.fill(255).autoFillHatchLines(brightnesses[i]).stroke(false);
+    crossbar.fill(bgLetterCol).autoFillHatchLines(brightnesses[i], 130).stroke(false);
 }
 
 
@@ -155,9 +207,9 @@ function semi(startX, startY, spin, rotation) {
     // semiCirc.closePath()
     //convert to a polygon
     var semipoly = semiCirc.toPolygon({ spacing: 25 })
-              var anycolor = colors[Math.round(Rune.random(colors.length))]
+    var anycolor = colors[Math.round(Rune.random(colors.length))]
 
-    semipoly.fill(anycolor).autoFillHatchLines(1).stroke(false);
+    semipoly.fill(bgLetterCol).autoFillHatchLines(1, Rune.random(360)).stroke(false);
 }
 
 
@@ -212,8 +264,8 @@ Rune.Polygon.prototype.fillHatchLines = function(step, angle, drawLine) {
     return this;
 };
 
-Rune.Polygon.prototype.autoFillHatchLines = function(brightness) {
-    
+Rune.Polygon.prototype.autoFillHatchLines = function(brightness, exactAngle) {
+
 
     var gamma = 4.05;
     var step = 9;
@@ -221,7 +273,7 @@ Rune.Polygon.prototype.autoFillHatchLines = function(brightness) {
     var alphaMin = 1 * 0.5;
     var alphaVariation = 1 * 0.2 + 0.05;
 
-    this.fillHatchLines(step, Rune.random(360), function(a, b, g) {
+    this.fillHatchLines(step, exactAngle, function(a, b, g) {
         var anycolor = colors[Math.round(Rune.random(colors.length))]
         r.line(a.x, a.y, b.x, b.y, g).strokeWidth(strokeWidth)
             .stroke(anycolor)
@@ -270,7 +322,7 @@ function HalftoneDots(startX, startY) {
 
 
     function drawHalftone(point1, size) {
-                var anycolor = colors[Math.round(Rune.random(colors.length))]
+        var anycolor = colors[Math.round(Rune.random(colors.length))]
 
         r.ellipse(point1[0], point1[1], 5, 5)
             .fill(anycolor).stroke(false);

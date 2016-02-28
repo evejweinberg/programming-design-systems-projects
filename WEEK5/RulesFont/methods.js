@@ -2,30 +2,33 @@ var r = new Rune({ container: "#canvas", width: $(window).width(), height: $(win
 // console.log(r)
 
 var placementRand = 0;
-// var colors = [
-//     new Rune.Color('hsv', 52, 100, 100), //pink 0
-//     new Rune.Color('hsv', 320, 100, 100), //red  1
-//     new Rune.Color('hsv', 187, 100, 100), //blue  2 
-//     new Rune.Color('hsv', 229, 100, 100), // purple  3
-//     new Rune.Color('hsv', 152, 100, 100), //green 4
-//     new Rune.Color('hsv', 358, 100, 100), //lght blue  5
-//     new Rune.Color('hsv', 197, 100, 100), //blue  2 
-// ];
+//brights
 var colors = [
-    new Rune.Color('hsv', 316,26,84), //purple
-    new Rune.Color('hsv', 7,32,100), //light pink
-    new Rune.Color('hsv', 169,33,88), //green 
-    new Rune.Color('hsv', 343,61,98), // pink
-    new Rune.Color('hsv', 289,31,67), //purple dark
-    new Rune.Color('hsv', 176,41,71), //teal
-    new Rune.Color('hsv', 4,44,99), //orange 
+    new Rune.Color('hsv', 52, 100, 100), //pink 0
+    new Rune.Color('hsv', 320, 100, 100), //red  1
+    new Rune.Color('hsv', 187, 100, 100), //blue  2 
+    new Rune.Color('hsv', 229, 100, 100), // purple  3
+    new Rune.Color('hsv', 152, 100, 100), //green 4
+    new Rune.Color('hsv', 358, 100, 100), //lght blue  5
+    new Rune.Color('hsv', 197, 100, 100), //blue  2 
 ];
+//pastels
+// var colors = [
+//     new Rune.Color('hsv', 316, 26, 84), //purple
+//     new Rune.Color('hsv', 7, 32, 100), //light pink
+//     new Rune.Color('hsv', 169, 33, 88), //green 
+//     new Rune.Color('hsv', 343, 61, 98), // pink
+//     new Rune.Color('hsv', 289, 31, 67), //purple dark
+//     new Rune.Color('hsv', 176, 41, 71), //teal
+//     new Rune.Color('hsv', 4, 44, 99), //orange 
+// ];
 var noise = new Rune.Noise().noiseDetail(0);
 var noiseStep = 0;
 var anycolor = colors[Math.round(Rune.random(colors.length))]
 var top, bottom, left, right;
+
 var scalar = 1;
-var kern = 30 * scalar;
+var kern = 20 * scalar;
 var letterH = 150 * scalar;
 var letterW = 100 * scalar;
 var letterThickness = (letterW * .16);
@@ -37,7 +40,7 @@ var bgLetterCol = bgCol
 var avgStrokeWidth = 3;
 var oneXs = []
 
-function oneX(startX, startY){
+function oneX(startX, startY) {
     var anycolor = colors[Math.round(Rune.random(colors.length))]
     var oneX = r.group(startX, startY)
     r.line(0, 0, letterThickness, letterThickness, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
@@ -45,19 +48,18 @@ function oneX(startX, startY){
 
     r.line(0, letterThickness, letterThickness, 0, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
 }
+
 function rowOfXs(startX, startY) {
 
-       for (var i = 0; i < 40; i++) {
-        oneX(startX+letterThickness*i*1.6, startY)
-    // var anycolor = colors[Math.round(Rune.random(colors.length))]
-    // var oneX = r.group(startX+letterThickness*i*1.6, startY)
-    // r.line(0, 0, letterThickness, letterThickness, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
-    // var anycolor = colors[Math.round(Rune.random(colors.length))]
-
-    // r.line(0, letterThickness, letterThickness, 0, oneX).stroke(anycolor).fill(false).strokeWidth(avgStrokeWidth)
-
- 
+    for (var i = 0; i < 40; i++) {
+        oneX(startX + letterThickness * i * 1.6, startY)
     }
+}
+
+function crossBarX(startX,startY){
+    for (var i = 0; i < 2; i++) {
+        oneX((letterThickness*1.3)+ startX + letterThickness * i * 1.5, startY)
+    } 
 }
 
 
@@ -131,7 +133,7 @@ function centerVBar(startX, startY) {
 }
 
 function leftBarThreeQuarters(startX, startY) {
-    oneX(startX,startY+letterH * .55)
+    oneX(startX, startY + letterH * .55)
     var randVar = Math.round(Rune.random(placementRand));
     var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(0, 0).lineTo(letterThickness, 0).lineTo(letterThickness, letterH * .5).lineTo(0, letterH * .5);
 
@@ -144,9 +146,20 @@ function diagnalBar(startX, startY) {
 
     var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(letterThickness, letterHmid).lineTo(letterThickness * 2, letterHmid).lineTo(letterW, letterH).lineTo(letterW - letterThickness, letterH);
     leftBar.fill(bgLetterCol).autoFillHatchLines(1, 45).stroke(false);
+}
 
+function diagnalRight(startX, startY) {
+    var randVar = Math.round(Rune.random(placementRand));
 
+    var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(letterWmid+letterThickness/2, 0).lineTo(letterW, letterH).lineTo(letterW-letterThickness, letterH).lineTo(letterWmid - letterThickness/2, 0);
+    leftBar.fill(bgLetterCol).autoFillHatchLines(1, 45).stroke(false);
+}
 
+function diagnalLeft(startX, startY) {
+    var randVar = Math.round(Rune.random(placementRand));
+
+    var leftBar = r.polygon(startX + randVar, startY + randVar).lineTo(letterWmid+letterThickness/2, 0).lineTo(0, letterH).lineTo(-letterThickness, letterH).lineTo(letterWmid - letterThickness/2, 0);
+    leftBar.fill(bgLetterCol).autoFillHatchLines(.4, 0).stroke(false);
 }
 
 function bottomBar(startX, startY) {
@@ -194,9 +207,9 @@ function doubleCircle(startX, startY) {
         .fill(255).stroke(false)
 }
 
-function semi(startX, startY, spin, rotation) {
+function semi(startX, startY, spin, rotation,scale) {
 
-    var radius = letterWmid;
+    var radius = letterWmid*scale;
     if (rotation == "top") {
         // console.log(true)
         var more = 0
@@ -307,7 +320,7 @@ Rune.Polygon.prototype.autoFillHatchLines = function(brightness, exactAngle) {
 
 
 
-function HalftoneDots(startX, startY) {
+function HalftoneDots(startX, startY, circumferance) {
 
     var size = 42;
     var spacing = 10;
@@ -316,24 +329,20 @@ function HalftoneDots(startX, startY) {
     //points of main ellipse
     var cpoints = {
         "c": [startX, startY],
-        "r": letterW
+        "r": circumferance
     };
 
-    for (var i = 0; i < 100; i++) {
-        for (var j = 0; j < 100; j++) {
+    for (var i = 0; i < r.width; i++) {
+        for (var j = 0; j < r.height; j++) {
             var pt1 = [i * spacing, j * spacing];
 
             var halftoneDot = [pt1[0], pt1[1]];
-            if (size <= 0) {
-                size = 1;
-            }
-
             if (dist(pt1[0], pt1[1], cpoints.c[0], cpoints.c[1]) < cpoints.r / 2) {
-                // console.log('yes', pt1)
+
                 drawHalftone(pt1, size)
 
             }
-            size = size - decrementsize;
+
         }
     }
 
@@ -378,4 +387,10 @@ function HalftoneDots(startX, startY) {
         }
     };
 
+}
+
+
+
+function distance(x1, y1, x2, y2) {
+    return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 }

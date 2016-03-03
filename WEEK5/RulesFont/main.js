@@ -13,9 +13,9 @@ $("svg").children().addClass("dropshadow");
 
 // r.rect(0,0,r.width,r.height).fill(bgCol)
 var threeD = false;
-var letters = [I,N,S,T,A,L,A,P,S,E];
+// var letters = [I,N,S,T,A,L,A,P,S,E];
 
-// var letters = [T, H, E, space, R, U, L, E, S,space,O,F];
+var letters = [T, H, E, space, R, U, L, E, S,space,O,F];
 var lettersOF = [O,F];
 var lettersRow2 = [A,R,T,space,S,C,H,O,O,L];
 
@@ -41,7 +41,8 @@ var lengthStart = r.width/2-((lettersRow2.length*letterW)+(lettersRow2.length*ke
    var center = r.width/2
    if(Math.abs(center-mouse.x)>200){
 if (mouse.x % 200){
-    placementRand = .4*Math.abs(center-mouse.x)
+    placementRand=0 
+    // placementRand = .4*Math.abs(center-mouse.x)
 }
 } else{
     placementRand=0 

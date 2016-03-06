@@ -19,7 +19,7 @@ var r = new Rune({
 var drawDiag = false
 var colorIncremment = 7;
 var Title = []
-var phrase = "The Electric Acid Koolaid Test";
+var phrase = "The  Electric Koolaid Acid Test";
 var res = phrase.split("");
 // console.log(res)
 var fontsize = 140;
@@ -83,15 +83,21 @@ f.load(function(err) {
 
 
 
-
+var letterx = 0
     //////MASK THE BACKGROUND UP WITH LETTERS AND WHITE BOX
     for (var i = 0; i < res.length; i++) {
+//         if (res[i] == "i"){
+//     console.log("i")
+//     letterx = 40;
+// } else {
+//     letterx = 0
+// }
 
         if (i % lettersinRow == 0) {
             m = m + 1
         }
 
-        var myMask = r.path(100 + fontsize * (i % lettersinRow), 100 + fontsize * m)
+        var myMask = r.path(100 + (1*fontsize) * (i % lettersinRow), 100 + fontsize * m)
 
         //rectangle mask
         .lineTo(fontsize, 0)
@@ -104,7 +110,8 @@ f.load(function(err) {
             .stroke(false)
 
 
-        var letterPath = f.toPath(res[i], 0, 0, fontsize)
+        var letterPath = f.toPath(res[i], letterx, 0, fontsize).move(letterx,0)
+        // console.log('letterPath: '+ letterPath.x +letterPath.y)
         myMask.vars.anchors = myMask.vars.anchors.concat(letterPath.vars.anchors)
     }
     // and 4 rectanlges around it
@@ -145,7 +152,7 @@ f.load(function(err) {
         if (grid2.modules[i].vars.x % 2) {
             drawDiag = true
         }
-
+// if (only draw in some of the grids)
         DoFunStuffLines(xreg, yreg, x, y, x2, y2, color, color2, grid2.modules[i], color3);
         hstart = hstart + colorIncremment;
     }
@@ -197,6 +204,12 @@ LotsofNoisyCircles(150+fontsize * (i % lettersinRow), vertMove+fontsize * m);
         //     console.log(pos.x)
 
         // }
+        // 
+        if (pos)
+     {for(var i = 0; i < path.vars.anchors.length; i++) {
+       var pos =  path.vars.anchors[1].vec3 || path.vars.anchors[1].vec2 || path.vars.anchors[1].vec1;
+       console.log(pos.x);
+     }}
         Title.push(path);
         var polys = path.toPolygons({ spacing: 5 }, Polyparent);
         hstart = hstart + colorIncremment;
@@ -270,7 +283,7 @@ LotsofNoisyCircles(150+fontsize * (i % lettersinRow), vertMove+fontsize * m);
 
     function LotsofNoisyCircles(x, y) {
         var noisecircleParent = r.group(x, y)
-        for (var i = 1; i < 8; i++) {
+        for (var i = 1; i < 9; i++) {
             var color = new Rune.Color('hsv', hstart, 40, 100);
             NoiseCircle(3 + (6 * i), color, noisecircleParent)
             hstart = hstart + (colorIncremment*4);
@@ -279,7 +292,7 @@ LotsofNoisyCircles(150+fontsize * (i % lettersinRow), vertMove+fontsize * m);
     ///noise circle
     function NoiseCircle(radius, color, parent) {
         var noise = new Rune.Noise().noiseDetail(0.2);
-        var numPoints = 90;
+        var numPoints = 20;
         var pointDegree = 360 / numPoints;
         var noiseStep = 0;
 
@@ -291,7 +304,8 @@ LotsofNoisyCircles(150+fontsize * (i % lettersinRow), vertMove+fontsize * m);
 
         for (var i = 0; i < numPoints; i++) {
 
-            var noiseRadius = (noise.get(noiseStep) * 30) + radius;
+            // var noiseRadius = (noise.get(noiseStep) * 30) + radius;
+            var noiseRadius = Rune.random(80)
             var x = Math.cos(Rune.radians(pointDegree * i)) * noiseRadius;
             var y = Math.sin(Rune.radians(pointDegree * i)) * noiseRadius;
 

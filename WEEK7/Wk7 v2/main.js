@@ -19,7 +19,7 @@ var r = new Rune({
 
 
 
-
+//this is to interact with the svg html element
 jQuery('img.svg').each(function(){
             var $img = jQuery(this);
             var imgID = $img.attr('id');

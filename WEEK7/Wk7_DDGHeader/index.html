@@ -19,11 +19,16 @@
     #ddg-logo-1 {
         width: 500px;
     }*/
-
+#bow-tie{
+     position: absolute;
+    /*left:500px;*/
+   
+}
     #logo-div{
         /*width:600px;*/
         position: absolute;
         left: 40%;
+        top:30%;
         z-index: 10;
         width: 500px;
         height: 500px;
@@ -35,7 +40,7 @@
         /*z-index: 99;*/
     }
     
-    svg {width: 80%; height: auto;}
+    svg {width: 100%; height: auto;}
     
     body {
         width: 100%;
@@ -47,9 +52,9 @@
     border-radius: 400px;
     background-color: white;
     position: absolute;
-    width: 55%;
+    width: 70%;
     top: 5.5%;
-    height: 55%;
+    height: 70%;
     z-index: -10;
     left: 4.6%;
 
@@ -59,12 +64,27 @@
         position: absolute;
         display: block;
         width: 100%;
+        height:100%;
     }
     </style>
 </head>
 
 <body>
-    <div id="canvas"></div>
+    <div id="canvas">
+        
+        <svg id="bow-tie" fill="#4495D4" viewBox="0 0 300 300">
+<path class="st0" d="M5.7,21c-3.2,5.2-2.6,30.3,0.5,32.5c2,1.4,14-4.4,21.5-7.8c0.1,2.5,1.9,2.5,9.5,2.7c9.1,0.3,9.4-1.4,9.5-2.7
+    c0,0,19.5,9.1,21.5,7.8c3.1-2.2,3.8-27.3,0.5-32.5c-2.5-3.9-22,9.5-22,9.5c-0.1-2.5-1.9-2.5-9.5-2.7c-9.1-0.3-9.4,1.4-9.5,2.7
+    C27.7,30.5,8,17.2,5.7,21z"/>
+</path>
+</svg>
+        <svg id="bow-tie2" fill="#4495D4" viewBox="0 0 300 300">
+<path class="st0" d="M5.7,21c-3.2,5.2-2.6,30.3,0.5,32.5c2,1.4,14-4.4,21.5-7.8c0.1,2.5,1.9,2.5,9.5,2.7c9.1,0.3,9.4-1.4,9.5-2.7
+    c0,0,19.5,9.1,21.5,7.8c3.1-2.2,3.8-27.3,0.5-32.5c-2.5-3.9-22,9.5-22,9.5c-0.1-2.5-1.9-2.5-9.5-2.7c-9.1-0.3-9.4,1.4-9.5,2.7
+    C27.7,30.5,8,17.2,5.7,21z"/>
+</path>
+</svg>
+    </div>
     
     <script type="text/javascript" src="main.js"></script>
     
@@ -82,6 +102,12 @@
     </svg>
   
     </div>
+
+
+
+
+
+
 </body>
 
 </html>

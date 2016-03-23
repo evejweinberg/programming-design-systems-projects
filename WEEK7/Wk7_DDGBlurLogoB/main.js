@@ -1,7 +1,7 @@
   var imgW = 300;
   var imgH = 300;
   var sizeMax = 40;
-  var sizeMin = 4;
+  var sizeMin = 5;
   var sizeChange = 4;
   var size = 5;
   var r = new Rune({
@@ -40,19 +40,19 @@
 
   function DrawGrid() {
 
-      // var innerrect = size * .2
+      var innerrect = size * .2
 
       for (var x = 0; x < imgW; x += size) {
           for (var y = 0; y < imgH; y += size) {
 
               // we have to map the x,y values to the width and height
               // of the image.
-              var imgX = Math.floor(x);
-              var imgY = Math.floor(y);
+              var imgX = Math.floor((x / imgW) * jpg.width);
+              var imgY = Math.floor((y / imgH) * jpg.height);
 
               var backColor = jpg.get(imgX, imgY);
               AllColors.push(backColor)
-                  // var frontColor = backColor.copy().darken(-0.2);
+                  var frontColor = backColor.copy().darken(-0.2);
 
               var rect1 = r.rect(x, y, size, size)
                   .fill(backColor)
@@ -62,12 +62,12 @@
               //push all rects into One main array
               AllRects.push(rect1)
 
-              // if (innerrect < 0) {
-              //     innerrect = 0;
-              // }
-              // var rect2 = r.circle(x + (innerrect / 2), y + (innerrect / 2), innerrect)
-              //     .fill(frontColor)
-              //     .stroke(false)
+              if (innerrect < 0) {
+                  innerrect = 0;
+              }
+              var rect2 = r.circle(x + (innerrect / 2), y + (innerrect / 2), innerrect)
+                  .fill(frontColor)
+                  .stroke(false)
 
           }
       }
@@ -78,7 +78,7 @@
   document.onmousemove = function(e) { mousePos(e); };
 
   function mousePos(e) {
-      // r.stage = [];
+  r.stage.children = [];
       // var x = event.clientX;
       // var y = event.clientY;
       size = size + sizeChange

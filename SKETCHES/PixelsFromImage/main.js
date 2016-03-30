@@ -18,65 +18,17 @@ var AllMags = [];
 var logoScalar = .85;
 logoSize = 1;
 var bgCol = 255;
-var colorsHex = ["#4495D4", "#DE5833", "#6D59A3", "#5B9E4D", "#F1A031"]
-var colors = [new Rune.Color("#4495D4"), new Rune.Color("#DE5833"), new Rune.Color("#6D59A3"), new Rune.Color("#5B9E4D"), new Rune.Color("#F1A031")]
+// var colorsHex = ["#4495D4", "#DE5833", "#6D59A3", "#5B9E4D", "#F1A031"]
+// var colors = [new Rune.Color("#4495D4"), new Rune.Color("#DE5833"), new Rune.Color("#6D59A3"), new Rune.Color("#5B9E4D"), new Rune.Color("#F1A031")]
     // var colors = [rgb(222,88,51)rgb(222,88,51),]
 // console.log(rw / oneMagWidth)
-var lineEndOptions = [new Rune.Vector(magStickLength, magStickLength), new Rune.Vector(-magStickLength, magStickLength), new Rune.Vector(-magStickLength, -magStickLength), new Rune.Vector(magStickLength, -magStickLength)]
+// var lineEndOptions = [new Rune.Vector(magStickLength, magStickLength), new Rune.Vector(-magStickLength, magStickLength), new Rune.Vector(-magStickLength, -magStickLength), new Rune.Vector(magStickLength, -magStickLength)]
     ///////◼///◼///◼///◼///◼///◼///◼///◼///◼///◼///◼////◼////
 
 
-// var BowTieX = Math.floor(Math.random() * (rw / oneMagWidth) - 0)
-// var BowTieY = Math.floor(Math.random() * (rh / oneMagWidth) - 0)
-// GridofSearches(BowTieX, BowTieY);
 
-
-function GridofSearches(BowTieX, BowTieY) {
-
-    if (i !== BowTieX && j !== BowTieY) {
-        for (var j = 0; j < rh / oneMagWidth; j++) {
-            for (var i = 0; i < rw / oneMagWidth; i++) {
-                if (i !== BowTieX || j !== BowTieY) {
-                    var randIndex = Math.floor(Math.random() * 5 - 0);
-                    DrawOneMag(topoffset+i * oneMagWidth, topoffset+oneMagWidth * j, randIndex, randIndex * 30);
-                }
-
-                if (i == BowTieX && j == BowTieY) {
-                    var randIndex = Math.floor(Math.random() * 5 - 0);
-
-                    PlaceOneBowTie(topoffset+i * oneMagWidth, topoffset+oneMagWidth * j, randIndex)
-                        // r.circle(i * oneMagWidth, oneMagWidth * j,30)
-                }
-            }
-        }
-    }
-}
 //◠ ◠ // ◠
-function PlaceOneBowTie(xpos, ypos, colorIndex) {
-    $("#bow-tie").attr('fill', colorsHex[colorIndex]);
-    // $("#bow-tie").css({position: absolute});
-    $("#bow-tie").css({ width: 300,height: 300 });
-    $("#bow-tie").css({ top: ypos - 30, left: xpos - 30 });
-    // console.log('xpos bow tie: '+ xpos)
 
-
-
-}
-
-function DrawOneMag(xpos, ypos, colorIndex, rotationAmt) {
-
-
-
-    var oneMag = r.group(0, 0);
-    r.line(0, 0, magStickLength, magStickLength, oneMag).strokeWidth(10).strokeCap('round').stroke(colors[colorIndex]);
-
-    r.circle(0, 0, oneMagRad, oneMag).fill(bgCol).stroke(colors[colorIndex]).strokeWidth(5);
-    oneMag
-    // .rotate(rotationAmt)
-        .move(xpos, ypos)
-
-    AllMags.push(oneMag)
-}
 
 // r.play();
 
@@ -107,13 +59,7 @@ function DrawOneMag(xpos, ypos, colorIndex, rotationAmt) {
 
 // }
 
-  function switchScalart(){
-if (logoSize>= 1.2){
-  logoScalar = .85
-} else{
-  logoScalar = 1.15
-  }
-}
+
 
 // $(document).click(function() {
 //     // AllMags =[]
@@ -168,8 +114,10 @@ if (logoSize>= 1.2){
 
 jpg.load(function(err) {
 
-  var size = 50;
+var rand = Rune.random(50)
+  var size = rand;
 
+for (var i =0; i<2; i++){
   for(var x = 0; x < r.width; x += size)
   {
     for(var y = 0; y < r.height; y += size)
@@ -190,8 +138,15 @@ jpg.load(function(err) {
         .fill(frontColor)
         .stroke(false)
         .rotate(45, x + (size/2), y + (size/2));
+
+if (x<100){
+        size = Rune.random(40)
+      } else {
+         size = Rune.random(50,300)
+      }
     }
   }
+}
 
   r.draw();
 
@@ -199,20 +154,12 @@ jpg.load(function(err) {
 // 
 $(window).resize(function() {
     r.stage.children = [];
-    var BowTieX = Math.floor(Math.random() * (rw / oneMagWidth) - 0)
-    var BowTieY = Math.floor(Math.random() * (rh / oneMagWidth) - 0)
-        // console.log(BowTieX+","+BowTieY)
-    GridofSearches(BowTieX, BowTieY);
+   
     $("#canvas").css({ "width": "100%" });
      $("#canvas").css({ "height": "100%" });
     var newrw = $(window).width();
 
-    if (newrw > rw) {
-    
-        rw = newrw;
-       
-        AllMags = [];
-    }
+   
 
 });
 
@@ -236,35 +183,4 @@ r.on('draw', function() {
 });
 
 
-//this is to interact with the svg html element
-// jQuery('img.svg').each(function() {
 
-//     // console.log(err);
-//     var $img = jQuery(this);
-//     var imgID = $img.attr('id');
-//     var imgClass = $img.attr('class');
-//     var imgURL = $img.attr('src');
-
-//     jQuery.get(imgURL, function(data) {
-//         // Get the SVG tag, ignore the rest
-//         var $svg = jQuery(data).find('svg');
-
-//         // Add replaced image's ID to the new SVG
-//         if (typeof imgID !== 'undefined') {
-//             $svg = $svg.attr('id', imgID);
-//         }
-//         // Add replaced image's classes to the new SVG
-//         if (typeof imgClass !== 'undefined') {
-//             $svg = $svg.attr('class', imgClass + ' replaced-svg');
-//         }
-
-//         // Remove any invalid XML tags as per http://validator.w3.org
-//         $svg = $svg.removeAttr('xmlns:a');
-
-//         // Replace image with new SVG
-//         $img.replaceWith($svg);
-
-//     }, 'xml');
-
-// });
-// document.onmousemove = function (e) {mousePos(e);};

@@ -1,4 +1,6 @@
-var r = new Rune({ container: "#canvas", width: $(window).width(), height: $(window).height(), debug: false });
+var r = new Rune({ container: "#canvas", 
+    width: $(window).width(), 
+    height: $(window).height(), debug: false });
 // console.log(r)
 
 var placementRand = 0;

@@ -21,18 +21,18 @@ var colors = [
     new Rune.Color(25, 20, 130), new Rune.Color(30, 125, 100), new Rune.Color(70, 60, 105)
 ]
 
-r.rect(0, 0, num, num).fill('hsv', num, 100, 100)
+// r.rect(0, 0, num, num).fill('hsv', num, 100, 100)
 
 
-//random options algorythm
-var rectRandOpt = r.rect(300, 0, num, num);
-if (numTwo < 1) {
-    rectRandOpt.fill(255, 0, 0)
-} else if (numTwo < 2) {
-    rectRandOpt.fill(0, 255, 0)
-} else {
-    rectRandOpt.fill(0, 0, 255)
-}
+// //random options algorythm
+// var rectRandOpt = r.rect(300, 0, num, num);
+// if (numTwo < 1) {
+//     rectRandOpt.fill(255, 0, 0)
+// } else if (numTwo < 2) {
+//     rectRandOpt.fill(0, 255, 0)
+// } else {
+//     rectRandOpt.fill(0, 0, 255)
+// }
 
 
 // use the return function////////////////////////////////////////////////////////////////////////////////////

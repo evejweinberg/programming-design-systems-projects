@@ -1,4 +1,4 @@
-var path = '../images/Faces_0.png'
+var path = '../images/Faces_2.png'
     // ImageTracer.imageToSVG( path, alert );
 
 

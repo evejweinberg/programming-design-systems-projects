@@ -1,3 +1,5 @@
+//get edges
+
 var capture;
 var buffer;
 var result;
@@ -52,13 +54,13 @@ var trailPoints = [];
 function setup() {
     createCanvas(w, h);
     fill(255,0,0);
-    text("low threshold", 10, 50);
-    slider = createSlider(10, 5, 50);
+
+    slider = createSlider(10, 5, 100);
     slider.position(10, 20);
     slider.style('width', '100px');
 
-    sliderBlur = createSlider(10, 5, 50);
-    text("blur", 10, 100);
+    sliderBlur = createSlider(10, 5, 100);
+    
     sliderBlur.position(10, 40);
     sliderBlur.style('width', '100px');
 
@@ -71,6 +73,7 @@ function setup() {
 
 function draw() {
 background('rgba(0,255,0, 0.25)');
+
     var i = 0;
     image(img, 0, 0, w, h);
     // // var pix = img.get(x, y);
@@ -79,9 +82,8 @@ background('rgba(0,255,0, 0.25)');
     //this array is 4194304 long, which is 1024x1024 x 4
 
       if(img.pixels.length > 0) { 
-    var bluramt = sliderBlur.value()
+    var blurSize = sliderBlur.value()
     var val = slider.value();
-    var blurSize = bluramt;
     var lowThreshold = val;
     var highThreshold = 50;
 
@@ -135,6 +137,8 @@ background('rgba(0,255,0, 0.25)');
 
     image(result, 0, 0, w, h);
     filter(INVERT);
+    text("low threshold", 10, 10);
+text("blur", 10, 40);
 }
  // blendMode(LIGHTEST);
 

@@ -65,6 +65,7 @@ function ImageTracer(){
 	
 	// Tracing imagedata, then returning the scaled svg string
 	this.imagedataToSVG = function(imgd,options){
+
 		options = _this.checkoptions(options);
 		// tracing imagedata
 		var td = _this.imagedataToTracedata(imgd,options);
@@ -88,7 +89,9 @@ function ImageTracer(){
 	
 	// Tracing imagedata, then returning tracedata (layers with paths, palette, image size)
 	this.imagedataToTracedata = function(imgd,options){
+
 		options = _this.checkoptions(options);
+
 		
 		// 1. Color quantization 
 		var ii = _this.colorquantization( imgd, options );
@@ -104,6 +107,7 @@ function ImageTracer(){
 		
 		// 4. Batch interpollation
 		var bis = _this.batchinternodes( bps );
+
 		// 5. Batch tracing
 		return {
 			'layers':_this.batchtracelayers( bis, options.ltres, options.qtres ),
@@ -147,7 +151,7 @@ function ImageTracer(){
 		if(!options.hasOwnProperty('blurdelta')){ options.blurdelta = 20; }
 		
 		// options.layercontainerid is not defined here, can be added externally: options.layercontainerid = 'mydiv'; ... <div id="mydiv"></div>
-		
+
 		return options;
 		
 	},// End of checkoptions()
@@ -165,10 +169,10 @@ function ImageTracer(){
 		
 		// Filling arr (color index array) with -1
 		for( j=0; j<imgd.height+2; j++ ){ arr[j]=[]; for(i=0; i<imgd.width+2 ; i++){ arr[j][i] = -1; } }
-		
+
 		// Use custom palette if pal is defined or generate custom length palette
 		palette = options.pal ? options.pal : ( options.colorsampling ? _this.samplepalette(options.numberofcolors,imgd) : _this.generatepalette(options.numberofcolors) );
-		
+
 		// Selective Gaussian blur preprocessing
 		if( options.blurradius > 0 ){ imgd = _this.blur( imgd, options.blurradius, options.blurdelta ); }
 		
@@ -180,20 +184,20 @@ function ImageTracer(){
 				// averaging paletteacc for palette
 				for( k=0; k < palette.length; k++ ){
 					// averaging
-					if(paletteacc[k].n>0){
-						palette[k].r = Math.floor(paletteacc[k].r/paletteacc[k].n);
-						palette[k].g = Math.floor(paletteacc[k].g/paletteacc[k].n);
-						palette[k].b = Math.floor(paletteacc[k].b/paletteacc[k].n);
-						palette[k].a = Math.floor(paletteacc[k].a/paletteacc[k].n);
-					}
+					// if(paletteacc[k].n>0){
+					// 	palette[k].r = Math.floor(paletteacc[k].r/paletteacc[k].n);
+					// 	palette[k].g = Math.floor(paletteacc[k].g/paletteacc[k].n);
+					// 	palette[k].b = Math.floor(paletteacc[k].b/paletteacc[k].n);
+					// 	palette[k].a = Math.floor(paletteacc[k].a/paletteacc[k].n);
+					// }
 					
-					// Randomizing a color, if there are too few pixels and there will be a new cycle
-					if( ( paletteacc[k].n/pixelnum < options.mincolorratio ) && ( cnt < options.colorquantcycles-1 ) ){
-						palette[k].r = Math.floor(Math.random()*255);
-						palette[k].g = Math.floor(Math.random()*255);
-						palette[k].b = Math.floor(Math.random()*255);
-						palette[k].a = Math.floor(Math.random()*255);
-					}
+					// // Randomizing a color, if there are too few pixels and there will be a new cycle
+					// if( ( paletteacc[k].n/pixelnum < options.mincolorratio ) && ( cnt < options.colorquantcycles-1 ) ){
+					// 	palette[k].r = Math.floor(Math.random()*255);
+					// 	palette[k].g = Math.floor(Math.random()*255);
+					// 	palette[k].b = Math.floor(Math.random()*255);
+					// 	palette[k].a = Math.floor(Math.random()*255);
+					// }
 					
 				}// End of palette loop
 			}// End of Average colors from the second iteration
@@ -201,11 +205,11 @@ function ImageTracer(){
 			// Reseting palette accumulator for averaging
 			for( i=0; i < palette.length; i++ ){
 				paletteacc[i]={};
-				paletteacc[i].r=0;
-				paletteacc[i].g=0;
-				paletteacc[i].b=0;
-				paletteacc[i].a=0;
-				paletteacc[i].n=0;
+				// paletteacc[i].r=0;
+				// paletteacc[i].g=0;
+				// paletteacc[i].b=0;
+				// paletteacc[i].a=0;
+				// paletteacc[i].n=0;
 			}
 			
 			// loop through all pixels
@@ -232,10 +236,10 @@ function ImageTracer(){
 					}// End of palette loop
 					
 					// add to palettacc
-					paletteacc[ci].r += imgd.data[idx  ];
-					paletteacc[ci].g += imgd.data[idx+1];
-					paletteacc[ci].b += imgd.data[idx+2];
-					paletteacc[ci].a += imgd.data[idx+3];
+					// paletteacc[ci].r += imgd.data[idx  ];
+					// paletteacc[ci].g += imgd.data[idx+1];
+					// paletteacc[ci].b += imgd.data[idx+2];
+					// paletteacc[ci].a += imgd.data[idx+3];
 					paletteacc[ci].n++;
 					
 					// update the indexed color array

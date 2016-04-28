@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>FACE YO'selfffffie</title>
+    <!-- <script type="text/javascript" src="../../lib/p5.min.js"></script> -->
+    <script type="text/javascript" src="../libs/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="../libs/rune.js"></script>
+    <script type="text/javascript" src="../libs/rune.noise.js"></script>
+    <script type="text/javascript" src="../libs/font.browser.js"></script>
+    <script type="text/javascript" src="../libs/simplify.js"></script>
+    <script type="text/javascript" src="../libs/rune.pixels.js"></script>
+    <script type="text/javascript" src="../libs/underscore.js"></script>
+    <script type="text/javascript" src="../libs/parsePath.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.0/seedrandom.min.js"></script>
+    <script src="../libs/p5.min.js"></script>
+    <script src="../libs/p5.dom.min.js"></script>
+    <script src="../libs/jsfeat.js"></script>
+    <script src="../libs/imagetracer_v1.1.0.js"></script>
+    <script src="../libs/utils.js"></script>
+    <script src="../libs/vue.js"></script>
+    <style type="text/css">
+    #instructions {
+        position: absolute;
+        left: 40%;
+    }
+    
+    .dropshadow {
+        /*box-shadow: 1px 1px;*/
+        position: absolute;
+        -webkit-filter: drop-shadow(1px 1px .5px rgba(0, 0, 0, 0.5));
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+    }
+    
+    body {
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        position: absolute;
+    }
+    
+    div {
+        /*position: absolute;*/
+    }
+    
+    #parameters {
+        height: 140px;
+        border: black solid;
+        width: 100%;
+    }
+    
+    canvas {
+        mix-blend-mode: multiply;
+    }
+    
+    #canvas svg {
+        z-index: 40;
+    }
+    
+    #svgcontainer {
+        z-index: -10;
+    }
+    </style>
+</head>
+
+<body>
+    <button id="myButton">Click me</button>
+    <input type="text" id="myInput">Blur</input>
+    <input type="text" id="newSpacing" >Spacing</input>
+    <input type="text" id="colorNum" >Number of Colors</input>
+    <script type="text/javascript">
+    $("#myButton").click(function() {
+        console.log('called')
+
+        var val = parseInt(($("#myInput").val()));
+        var spacing = parseInt(($("#newSpacing").val()));
+        var colorNum = parseInt(($("#colorNum").val()));
+        $('#canvas').remove();
+      
+        callFullSene(val, spacing, colorNum)
+    });
+    </script>
+
+
+    <div id='parameters'>
+        <p>blur Amt:
+            <input v-model="blurAmt" type="number">
+        </p>
+        <p>Number of Colors:
+            <input v-model="colorAmt" type="number">
+        </p>
+        <!-- <p>{{ message }}</p> -->
+        <button v-on:click="redraw">Submit</button>
+    </div>
+    <!-- <div id="canvas"></div> -->
+    <script type="text/javascript" src="ImgtracerTest1.js"></script>
+ 
+</body>
+
+</html>

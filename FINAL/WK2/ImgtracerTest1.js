@@ -24,6 +24,7 @@ function draw() {
 }
 
 
+
 function gotFile(file) {
     // If it's an image file
     if (file.type === 'image') {
@@ -46,7 +47,6 @@ function callFullSene(val, spacing, colorNum) {
     console.log('function was called')
         ///////////PUT EVERYTHING IN HERE///////////////
         ///////////PUT EVERYTHING IN HERE///////////////
-
 
 
 

@@ -47,7 +47,7 @@
     }
     
     #parameters {
-        height: 140px;
+        height: 180px;
         border: black solid;
         width: 100%;
     }
@@ -67,11 +67,43 @@
 </head>
 
 <body>
-    <button id="myButton">Click me</button>
-    <input type="text" id="myInput">Blur</input>
-    <input type="text" id="newSpacing" >Spacing</input>
-    <input type="text" id="colorNum" >Number of Colors</input>
+    <div id='parameters'>
+        <table>
+            <tr style="width:20%">
+                <input type="text" id="myInput">Blur</input>
+                <br>
+                <input type="text" id="newSpacing">Spacing</input>
+                <br>
+                <input type="text" id="colorNum">Number of Colors</input>
+                <br>
+                <button id="myButton">SUBMIT</button>
+                <p id="error-msg">NO ERRORS</p>
+            </tr>
+            <tr>
+                <form>
+                    <input type="checkbox" name="fill" id="lines" name="re"> Lines
+                </form>
+                <form>
+                    <input type="checkbox" name="fill" id="dots" name="re"> Dots
+                </form>
+                <form>
+                    <input type="checkbox" name="fill" id="circles" name="re"> Circles
+                </form>
+            </tr>
+            <!-- <p>blur Amt:
+            <input v-model="blurAmt" type="number">
+        </p>
+        <p>Number of Colors:
+            <input v-model="colorAmt" type="number">
+        </p>
+         <p>{{ message }}</p> -->
+            <!--    <button v-on:click="redraw">Submit</button>  -->
+        </table>
+    </div>
     <script type="text/javascript">
+    
+
+
     $("#myButton").click(function() {
         console.log('called')
 
@@ -79,25 +111,11 @@
         var spacing = parseInt(($("#newSpacing").val()));
         var colorNum = parseInt(($("#colorNum").val()));
         $('#canvas').remove();
-      
+
         callFullSene(val, spacing, colorNum)
     });
     </script>
-
-
-    <div id='parameters'>
-        <p>blur Amt:
-            <input v-model="blurAmt" type="number">
-        </p>
-        <p>Number of Colors:
-            <input v-model="colorAmt" type="number">
-        </p>
-        <!-- <p>{{ message }}</p> -->
-        <button v-on:click="redraw">Submit</button>
-    </div>
-    <!-- <div id="canvas"></div> -->
     <script type="text/javascript" src="ImgtracerTest1.js"></script>
- 
 </body>
 
 </html>

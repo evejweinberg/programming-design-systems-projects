@@ -1,3 +1,22 @@
+var chosenColor;
+var colorsAll = []
+
+function setTextColor(picker) {
+    console.log(picker)
+    // pickers.bgcolor = new jscolor('bgcolor-button', options);
+	console.log(picker.hsv)
+	// console.log(picker.toString())
+	chosenColor = new Rune.Color('hsv', Math.floor(picker.hsv[0]), Math.floor(picker.hsv[1]), Math.floor(picker.hsv[2])) 
+	colorsAll[0] = zero.style.backgroundColor
+    colorsAll[1] = one.style.backgroundColor
+    colorsAll[2] = two.style.backgroundColor
+    colorsAll[3] = three.style.backgroundColor
+	// colorsAll.push(chosenColor)
+	console.log('colorsAll' , colorsAll)
+	// console.log("new Rune.Color('hsv',"+picker.hsv[0]+","+picker.hsv[1]+","+picker.hsv[2]+")")
+		// document.getElementsByTagName('body')[0].style.color = '#' + picker.toString()
+	}
+
 var uploadedFile;
 
 $("#myButton").click(function() {
@@ -12,8 +31,8 @@ $("#myButton").click(function() {
         // canvas.id = 'yo'
         var img = new Image();
         img.src = e.target.result;
-       $('canvas').attr('id', 'yo');
-                   $("#error-msg").text('LOADING')
+        $('canvas').attr('id', 'yo');
+        $("#error-msg").text('LOADING')
 
 
         var btn = document.createElement("p"); // Create a <button> element
@@ -21,10 +40,16 @@ $("#myButton").click(function() {
         btn.appendChild(t); // Append the text to <button>
         (function() {
             if (img.complete) {
+            	// if (!parseInt(($("#colorNum").val()))){
+            		var colorNum = colorsAll.length
+            		// console.log('colorsAll length is' + colorNum)
+            	// } else {
+                // var colorNum = parseInt(($("#colorNum").val()));
+            		
+            	// }
 
                 var val = parseInt(($("#myInput").val()));
                 var spacing = parseInt(($("#newSpacing").val()));
-                var colorNum = parseInt(($("#colorNum").val()));
 
 
                 // grab the vars
@@ -47,12 +72,15 @@ $("#myButton").click(function() {
 
 //callFullSene(400, 30, 11);
 var myDropzone = new Dropzone("div#myDropzone", { url: "/" });
+document.getElementById('myDropzone').setAttribute("style", "border:2px solid red; background-color: rgb(255, 125, 115); position: absolute; right: 22%");
 var btn = document.createElement("p"); // Create a <button> element
 var t = document.createTextNode("Click Here to add file"); // Create a text node
 btn.appendChild(t); // Append the text to <button>
+// document.getElementById('parameters').appendChild(document.getElementById('myDropzone'))
 document.getElementById('myDropzone').appendChild(btn);
 myDropzone.on("addedfile", function(file, xhr) {
     uploadedFile = file;
+    btn.remove()
 });
 
 ///////////PUT EVERYTHING IN HERE///////////////
@@ -69,13 +97,25 @@ function callFullSene(imgData, val, spacing, colorNum) {
 
 
     $('<div />', { id: 'canvas' }).appendTo('body').ready(function() {
-        console.log('canvas loaded')
+        // console.log('canvas loaded')
 
 
 
-        console.log(val)
-        console.log(spacing)
-        console.log(colorNum)
+        // console.log(val)
+        // console.log(spacing)
+        // console.log(colorNum)
+
+        if (!val) {
+            val == 20
+        }
+        if (!spacing) {
+        	console.log("i'm defaulting to 6px spacing")
+            spacing == 6
+        }
+        if (!colorNum || colorNum == 0) {
+        	console.log("i'm defaulting to 11 colors")
+            colorNum = 11
+        }
 
         if (!val || !spacing || !colorNum) {
             console.log('one parameter is missing')
@@ -101,65 +141,46 @@ function callFullSene(imgData, val, spacing, colorNum) {
         var allstrokes = 4
         var strokecap = "round"
 
-        // var colors = [
-        //     new Rune.Color('hsv', 343, 35, 89), //pink 0
-        //     new Rune.Color('hsv', 305, 77, 82), //red  1
-        //     new Rune.Color('hsv', 309, 55, 85), //blue  2 
-        //     new Rune.Color('hsv', 310, 51, 67), // purple  3
-        //     new Rune.Color('hsv', 347, 59, 94), //yellow  4
-        //     new Rune.Color('hsv', 340, 21, 90), //lght blue  5
-        //     new Rune.Color('hsv', 300, 50, 23) //black   6
-        // ];
 
-        if (colorNum == 11) {
-
-            var colorsB = [
-                new Rune.Color('hsv', 343, 35, 89), //pink 0
-                new Rune.Color('hsv', 343, 12, 100), //light pink 0
-                new Rune.Color('hsv', 15, 77, 82), //red  1
-                new Rune.Color('hsv', 15, 57, 102), //light orange
-                new Rune.Color('hsv', 209, 55, 85), //blue  2 
-                new Rune.Color('hsv', 250, 51, 67), // purple  3
-                // new Rune.Color('hsv', 250, 41, 77), // purple  3
-                new Rune.Color('hsv', 47, 59, 94), //yellow  4
-                new Rune.Color('hsv', 190, 21, 97), //lght blue  5
-                new Rune.Color('hsv', 195, 61, 97), //med blue
-                new Rune.Color('hsv', 0, 0, 23), //black   6
-                new Rune.Color('hsv', 10, 10, 28) //black2   6
-            ];
-
-        } else if (colorNum == 5) {
-            var colorsB = [
-                new Rune.Color('hsv', 343, 35, 89), //pink 0
-                new Rune.Color('hsv', 343, 12, 100), //light pink 0
-                new Rune.Color('hsv', 15, 77, 82), //red  1
-                new Rune.Color('hsv', 15, 57, 102), //light orange
-                new Rune.Color('hsv', 209, 55, 85), //blue  2 
-            ]
-
-        } else if (colorNum == 4) {
-            var colorsB = [
-                // new Rune.Color('hsv', 343, 35, 89), //pink 0
-                new Rune.Color('hsv', 343, 12, 100), //light pink 0
-                new Rune.Color('hsv', 15, 77, 82), //red  1
-                new Rune.Color('hsv', 47, 59, 94), //yellow  4
-
-                // new Rune.Color('hsv', 15, 57, 102), //light orange
-                new Rune.Color('hsv', 209, 55, 85), //blue  2 
-            ]
-
-        } else if (colorNum == 3) {
-            var colorsB = [
-                // new Rune.Color('hsv', 343, 35, 89), //pink 0
-                // new Rune.Color('hsv', 343, 12, 100), //light pink 0
-                new Rune.Color('hsv', 15, 77, 82), //red  1
-                new Rune.Color('hsv', 47, 59, 94), //yellow  4
-
-                // new Rune.Color('hsv', 15, 57, 102), //light orange
-                new Rune.Color('hsv', 209, 55, 85), //blue  2 
-            ]
-
+if (colorNum){
+        colorsAll = [
+            new Rune.Color('hsv', 0, 0, 23), //black   6
+            new Rune.Color('hsv', 190, 21, 97), //lght blue  5
+            new Rune.Color('hsv', 116, 50, 95), //neon green
+            new Rune.Color('hsv', 343, 12, 100), //light pink 0
+            new Rune.Color('hsv', 15, 77, 82), //red  1
+            new Rune.Color('hsv', 24, 98, 77), //pastel orange
+            new Rune.Color('hsv', 47, 59, 94), //yellow  4
+            new Rune.Color('hsv', 15, 57, 102), //light orange
+            new Rune.Color('hsv', 343, 35, 89), //pink 0
+            new Rune.Color('hsv', 209, 55, 85), //blue  2 
+            new Rune.Color('hsv', 250, 51, 67), // purple  3
+            new Rune.Color('hsv', 250, 41, 77), // purple  3
+            new Rune.Color('hsv', 195, 61, 97), //med blue
+            new Rune.Color('hsv', 10, 10, 28) //black2   6
+        ];
         }
+// 
+        // console.log('colorsAll is ' + colorsAll)
+
+
+        var colorsB = []
+        var colorsAllArray = []
+        colorsAllArray.length = colorNum
+        console.log('colorNum is' , colorNum)
+
+
+
+//get COLORSB
+        for (var i = 0; i < colorsAllArray.length; i++) {
+            console.log('called for loop')
+            colorsB.push(colorsAll[i])
+            console.log('colorsB' , colorsB)
+        }
+
+        // console.log(colorsB)
+
+    
 
 
         var traceColors = _.map(colorsB, function(col) {

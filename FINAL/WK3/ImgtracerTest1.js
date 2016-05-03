@@ -1,21 +1,25 @@
+$('#save').click(function() {
+    crowbar();
+    console.log('save')
+
+
+});
+
+
 var chosenColor;
-var colorsAll = []
+var colorsAll = {};
+var inputImgWidth = 1024;
+var inputImgHeight = 1024;
 
 function setTextColor(picker) {
-    console.log(picker)
-    // pickers.bgcolor = new jscolor('bgcolor-button', options);
-	console.log(picker.hsv)
-	// console.log(picker.toString())
-	chosenColor = new Rune.Color('hsv', Math.floor(picker.hsv[0]), Math.floor(picker.hsv[1]), Math.floor(picker.hsv[2])) 
-	colorsAll[0] = zero.style.backgroundColor
-    colorsAll[1] = one.style.backgroundColor
-    colorsAll[2] = two.style.backgroundColor
-    colorsAll[3] = three.style.backgroundColor
-	// colorsAll.push(chosenColor)
-	console.log('colorsAll' , colorsAll)
-	// console.log("new Rune.Color('hsv',"+picker.hsv[0]+","+picker.hsv[1]+","+picker.hsv[2]+")")
-		// document.getElementsByTagName('body')[0].style.color = '#' + picker.toString()
-	}
+
+    colorsAll[picker.targetElement.id] = {
+        r: picker.rgb[0],
+        g: picker.rgb[1],
+        b: picker.rgb[2],
+        a: 255
+    };
+}
 
 var uploadedFile;
 
@@ -26,8 +30,8 @@ $("#myButton").click(function() {
     reader.onload = function(e) {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext("2d");
-        canvas.width = 1024;
-        canvas.height = 1024;
+        canvas.width = inputImgWidth;
+        canvas.height = inputImgHeight;
         // canvas.id = 'yo'
         var img = new Image();
         img.src = e.target.result;
@@ -40,23 +44,21 @@ $("#myButton").click(function() {
         btn.appendChild(t); // Append the text to <button>
         (function() {
             if (img.complete) {
-            	// if (!parseInt(($("#colorNum").val()))){
-            		var colorNum = colorsAll.length
-            		// console.log('colorsAll length is' + colorNum)
-            	// } else {
-                // var colorNum = parseInt(($("#colorNum").val()));
-            		
-            	// }
 
                 var val = parseInt(($("#myInput").val()));
                 var spacing = parseInt(($("#newSpacing").val()));
 
 
-                // grab the vars
+                // grab the colorsAll json object and turn it into an array
+                var colorsOnly = [];
+                _.each(colorsAll, function(v, k) {
+                    colorsOnly.push(v);
+                });
+                console.log(colorsOnly)
 
 
                 ctx.drawImage(img, 0, 0);
-                callFullSene(ctx.getImageData(0, 0, 1024, 1024), val, spacing, colorNum);
+                callFullSene(ctx.getImageData(0, 0, inputImgWidth, inputImgHeight), val, spacing, colorsOnly);
             } else {
                 setTimeout(arguments.callee, 50);
             }
@@ -78,120 +80,104 @@ var t = document.createTextNode("Click Here to add file"); // Create a text node
 btn.appendChild(t); // Append the text to <button>
 // document.getElementById('parameters').appendChild(document.getElementById('myDropzone'))
 document.getElementById('myDropzone').appendChild(btn);
+// myDropzone.on("removedfile", function (file){
+
+// })
 myDropzone.on("addedfile", function(file, xhr) {
     uploadedFile = file;
     btn.remove()
+    console.log(file)
+        // inputImgWidth = file.width
+        // inputImgHeight = file.height
 });
 
 ///////////PUT EVERYTHING IN HERE///////////////
 //////////////PUT EVERYTHING IN HERE///////////////
-function callFullSene(imgData, val, spacing, colorNum) {
+function callFullSene(imgData, val, spacing, colors) {
+
     console.log('function was called')
-        ///////////PUT EVERYTHING IN HERE///////////////
-        ///////////PUT EVERYTHING IN HERE///////////////
-
-
-
-
-
+    $("#error-msg").text('LOADING')
 
 
     $('<div />', { id: 'canvas' }).appendTo('body').ready(function() {
-        // console.log('canvas loaded')
-
-
-
-        // console.log(val)
-        // console.log(spacing)
-        // console.log(colorNum)
 
         if (!val) {
-            val == 20
+            console.log("i'm defaulting preblur to 6")
+            val = 6;
         }
         if (!spacing) {
-        	console.log("i'm defaulting to 6px spacing")
-            spacing == 6
-        }
-        if (!colorNum || colorNum == 0) {
-        	console.log("i'm defaulting to 11 colors")
-            colorNum = 11
+            console.log("i'm defaulting to 6px spacing")
+            spacing = 6
         }
 
-        if (!val || !spacing || !colorNum) {
+        if (!val || !spacing) {
             console.log('one parameter is missing')
             $("#error-msg").text('One Parameter is Missing')
                 // $("#error-mesg").text('one parameter is missing')
-        } else if (val && spacing && colorNum) {
+        } else if (val && spacing) {
+            // $("#error-msg").text('LOADING')
             console.log('they all exist')
-            $("#error-msg").text('NO ERRORS!!')
+            $("error-msg").text('LOADING')
         }
 
 
-        ////////////////////////////////////////
-        /////////////////////////////////////////
 
-        // var path = '../images/Faces_2b.png'
-        // console.log('bouta look for canvas');
         var r = new Rune({
             container: "#canvas",
-            width: 1024,
-            height: 1024
+            width: inputImgWidth,
+            height: inputImgHeight
         });
 
         var allstrokes = 4
         var strokecap = "round"
 
+        //if they dont select any colors, make an object called colors
+        if (colors.length == 0) {
+            colors = [
+           { "r": 59, "g": 59, "b": 59, a: 255 }, //0 grey
+           { "r": 195, "g": 239, "b": 247, a: 255 }, //1 light blue
+           { "r": 129, "g": 242, "b": 121, a: 255 }, //2 purple
+           { "r": 255, "g": 224, "b": 233, a: 255 }, //3 light pink
+           { "r": 209, "g": 88, "b": 48, a: 255 }, //drk orange
+           { "r": 196, "g": 81, "b": 4, a: 255 }, //drk orange
+           { "r": 240, "g": 209, "b": 98, a: 255 }, //yellow
+           { "r": 255, "g": 146, "b": 110, a: 255 }, //light orange
+           { "r": 227, "g": 148, "b": 170, a: 255 }, //drk pink
+           { "r": 98, "g": 159, "b": 217, a: 255 },
+           { "r": 98, "g": 84, "b": 171, a: 255 },
+           { "r": 129, "g": 116, "b": 196, a: 255 },
+           { "r": 96, "g": 210, "b": 247, a: 255 },
+           { "r": 71, "g": 65, "b": 64, a: 255 }
+       ]
 
-if (colorNum){
-        colorsAll = [
-            new Rune.Color('hsv', 0, 0, 23), //black   6
-            new Rune.Color('hsv', 190, 21, 97), //lght blue  5
-            new Rune.Color('hsv', 116, 50, 95), //neon green
-            new Rune.Color('hsv', 343, 12, 100), //light pink 0
-            new Rune.Color('hsv', 15, 77, 82), //red  1
-            new Rune.Color('hsv', 24, 98, 77), //pastel orange
-            new Rune.Color('hsv', 47, 59, 94), //yellow  4
-            new Rune.Color('hsv', 15, 57, 102), //light orange
-            new Rune.Color('hsv', 343, 35, 89), //pink 0
-            new Rune.Color('hsv', 209, 55, 85), //blue  2 
-            new Rune.Color('hsv', 250, 51, 67), // purple  3
-            new Rune.Color('hsv', 250, 41, 77), // purple  3
-            new Rune.Color('hsv', 195, 61, 97), //med blue
-            new Rune.Color('hsv', 10, 10, 28) //black2   6
-        ];
-        }
-// 
-        // console.log('colorsAll is ' + colorsAll)
+       }
 
+       var colorsRune = []
 
-        var colorsB = []
-        var colorsAllArray = []
-        colorsAllArray.length = colorNum
-        console.log('colorNum is' , colorNum)
+       for (var i =0; i< colors.length; i++) {
+        console.log(colors[i].r)
 
+           var transformedColor = new Rune.Color(colors[i].r, colors[i].g, colors[i].b)
 
+           colorsRune.push(transformedColor)
 
-//get COLORSB
-        for (var i = 0; i < colorsAllArray.length; i++) {
-            console.log('called for loop')
-            colorsB.push(colorsAll[i])
-            console.log('colorsB' , colorsB)
-        }
-
-        // console.log(colorsB)
-
-    
+           // console.log(colorsRune)
 
 
-        var traceColors = _.map(colorsB, function(col) {
-            var obj = col.rgb();
-            obj.a = 255;
-            return obj;
-        });
+       }
+
+
+
+
+            
+       
+
+        // console.log(colorsRune)
+        // console.log(colors.length)
 
 
         // Synchronous tracing to SVG string
-        var svgstr = ImageTracer.imagedataToSVG(imgData, { pal: traceColors, pathomit: 52, lcpr: 0, scale: 1, blurradius: 40 });
+        var svgstr = ImageTracer.imagedataToSVG(imgData, { pal: colors, pathomit: 52, lcpr: 0, scale: 1, blurradius: 40 });
 
         // Appending SVG
         // ImageTracer.appendSVGString(svgstr, 'svgcontainer');
@@ -203,6 +189,7 @@ if (colorNum){
             // create polygons from the path
             var polygons = paths[i].toPolygons({ spacing: spacing });
             var poly = polygons[0];
+            console.log(poly.vars.fill.values.rgb[0])
 
 
             //chang this to a number value
@@ -210,30 +197,25 @@ if (colorNum){
 
 
             if (document.getElementById("lines").checked == true) {
-                console.log('lines on')
-                if (poly.vars.fill.values.rgb[0] == traceColors[colorsB.length - 1].r) {
-                    // console.log('YES four')
-                    RunContains("lines", poly, Math.floor(Rune.random(2, colorNum - 1)))
+                // console.log('lines on',poly.vars.fill.values.rgb)
+                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 1].r) {
+                    console.log('YES DRAW LINES')
+                    RunContains("lines", poly, Math.floor(Rune.random(2, colors.length - 1)))
                 }
             }
             if (document.getElementById("dots").checked == true) {
-                if (poly.vars.fill.values.rgb[0] == traceColors[0].r) {
+                            console.log('YES DRAW DOTS')
+                if (poly.vars.fill.values.rgb[0][0] == colors[3].r) {
 
-                    RunContains("dots", poly, 1)
+                    RunContains("dots", poly, 8)
                 }
             }
             if (document.getElementById("circles").checked == true) {
-                if (poly.vars.fill.values.rgb[0] == traceColors[colorsB.length - 2].r) {
+                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 2].r) {
                     // console.log('YES four')
-                    RunContains("circles", poly, Math.floor(Rune.random(2, colorNum - 1)))
+                    RunContains("circles", poly, Math.floor(Rune.random(2, colors.length - 1)))
                 }
             }
-
-
-
-
-
-
 
             // poly.vars.fill = colorsB[Math.floor(Rune.random(colorsB.length))] 
             poly.vars.stroke = false
@@ -247,10 +229,13 @@ if (colorNum){
 
 
         r.draw();
+        $("#error-msg").text(' ')
 
 
 
         function RunContains(pattern, container, colIndex) {
+            console.log(colors[colIndex])
+                //convert the colors objects back to an array
 
             var size = 15;
             var sizeMin = 8;
@@ -259,7 +244,7 @@ if (colorNum){
                 for (var x = 2; x < r.width; x += size + 0.5) {
                     for (var y = 2; y < r.height; y += size + 0.5) {
                         if (container.contains(x, y)) {
-                            r.circle(x, y, 3).fill(colorsB[colIndex]).stroke(false)
+                            r.circle(x, y, 3).fill(colorsRune[colIndex]).stroke(false)
 
                         }
                     }
@@ -274,9 +259,9 @@ if (colorNum){
                             // console.log( 'rand' + rand)
                         if (container.contains(x, y)) {
                             if (rand == 1) {
-                                r.line(x, y, x + sizeMin, y + sizeMin).fill(colorsB[colIndex]).stroke(colorsB[colIndex]).strokeWidth(allstrokes).strokeCap(strokecap)
+                                r.line(x, y, x + sizeMin, y + sizeMin).fill(colorsRune[colIndex]).stroke(colorsRune[colIndex]).strokeWidth(allstrokes).strokeCap(strokecap)
                             } else {
-                                r.line(x + sizeMin, y, x, y + sizeMin).fill(colorsB[colIndex]).stroke(colorsB[colIndex]).strokeWidth(allstrokes).strokeCap(strokecap)
+                                r.line(x + sizeMin, y, x, y + sizeMin).fill(colorsRune[colIndex]).stroke(colorsRune[colIndex]).strokeWidth(allstrokes).strokeCap(strokecap)
 
                             }
                         }
@@ -289,7 +274,7 @@ if (colorNum){
                 for (var x = 2; x < r.width; x += size + 5) {
                     for (var y = 2; y < r.height; y += size + 5) {
                         if (container.contains(x, y)) {
-                            r.circle(x, y, sizeMin).stroke(colorsB[colIndex]).fill(false).strokeWidth(allstrokes)
+                            r.circle(x, y, sizeMin).stroke(colorsRune[colIndex]).fill(false).strokeWidth(allstrokes)
 
                         }
                     }

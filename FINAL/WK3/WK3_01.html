@@ -14,8 +14,12 @@
     <script type="text/javascript" src="../libs/rune.pixels.js"></script>
     <script type="text/javascript" src="../libs/underscore.js"></script>
     <script type="text/javascript" src="../libs/parsePath.js"></script>
+
+    <script type="text/javascript" src="../libs/crowbar.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.0/seedrandom.min.js"></script>
     <script src="dropzone.js"></script>
+     <!-- <link rel="stylesheet" href="materialize.css"> -->
+    
     <link rel="stylesheet" href="dropzone.css">
     <script src="../libs/p5.min.js"></script>
     <script src="../libs/p5.dom.min.js"></script>
@@ -78,46 +82,46 @@
             <br>
             <input type="text" id="newSpacing">Poly Distance</input>
             <br>
-            <button id="zero" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker1" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 1
             </button>
-            <button id="one" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker2" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 2
             </button>
-            <button  id="two"class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button  id="picker3" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 3
             </button>
-            <button  id="three"class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button  id="picker4" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 4
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker4" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 5
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker5" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 6
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker6" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 7
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker7" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 8
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker8" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 9
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker9" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 10
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker10" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 11
             </button>
-            <button class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
+            <button id="picker11" class="jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}">
                 Pick Color 12
             </button>
-            <p>OR</p>
+            <p>OR Let me choose the colors for you</p>
             <input type="text" id="colorNum">Number of Colors (1 - 12)</input>
             <button id="myButton">SUBMIT</button>
-            <p id="error-msg">NO ERRORS</p>
+            <p id="error-msg">  </p>
             <form>
                 <input type="checkbox" name="fill" id="lines" name="re"> Lines
             </form>
@@ -137,6 +141,7 @@
          <p>{{ message }}</p> -->
             <!--    <button v-on:click="redraw">Submit</button>  -->
         </table>
+         <button id="save" class="mui-btn">SAVE</button>
     </div>
     <script type="text/javascript" src="ImgtracerTest1.js"></script>
 </body>

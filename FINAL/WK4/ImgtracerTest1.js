@@ -1,16 +1,127 @@
-function traceImage(imgData) {
-    // Synchronous tracing to SVG string
-    // pass in the ctx.drawImage information as the imgData that you set when you called the function
-    // do I ever change blurradius again?
-    // all pixel processing happens inside of here
-    svgstr = ImageTracer.imagedataToSVG(imgData, { pathomit: 52, lcpr: 0, scale: 1, blurradius: 40 });
+$('#save').click(function() {
+    //make this so it just downnloads the one canvas that I want
+    crowbar();
+
+});
+
+
+var chosenColor;
+var colorsAll = {};
+var inputImgWidth = 1024;
+var inputImgHeight = 1024;
+var uploadedFile;
+
+//////////////////////////////////////////
+/////////////DROP ZONE/////////////////
+//////////////////////////////////////////
+
+var myDropzone = new Dropzone("div#myDropzone", { url: "/" });
+document.getElementById('myDropzone').setAttribute("style", "border:2px solid red; background-color: rgb(255, 125, 115); position: absolute; right: 22%");
+var btn = document.createElement("p"); // Create a <button> element
+var t = document.createTextNode("Click Here to add file"); // Create a text node
+btn.appendChild(t); // Append the text to <button>
+// document.getElementById('parameters').appendChild(document.getElementById('myDropzone'))
+document.getElementById('myDropzone').appendChild(btn);
+
+// myDropzone.on("removedfile", function (file){
+
+// })
+
+myDropzone.on("addedfile", function(file, xhr) {
+    uploadedFile = file;
+    btn.remove()
+        // inputImgWidth = file.width
+        // inputImgHeight = file.height
+});
+
+
+///////////DROP ZONE ENDS ////////////////
+/////////////////////////////////////////
+//////////////////////////////////////////
+
+function setTextColor(picker) {
+    //every time a picker is chosen, push it into colorsAll
+
+    colorsAll[picker.targetElement.id] = {
+        r: Math.floor(picker.rgb[0]),
+        g: Math.floor(picker.rgb[1]),
+        b: Math.floor(picker.rgb[2]),
+        a: 255
+    };
+
+    console.log('colorsAll is')
+    console.log(colorsAll)
 }
+
+
+$("#myButton").click(function() {
+    $('#canvas').remove();
+
+    //dropZone element
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        //after image is read? 
+        console.log('on load was called')
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext("2d");
+        canvas.width = inputImgWidth;
+        canvas.height = inputImgHeight;
+        //is this dropzone or p5?
+        //is this the image Data that gets passed in?
+        var img = new Image();
+        img.src = e.target.result;
+        $('canvas').attr('id', 'yo');
+        // $("#error-msg").text('LOADING')
+
+
+        var btn2 = document.createElement("p"); // Create a <button> element
+        var t = document.createTextNode("Loading"); // Create a text node
+        btn2.appendChild(t);
+        //add the words LOADING somehow here.. WTF!!!!
+
+        (function() {
+            if (img.complete) {
+                console.log('image is complete')
+
+                var val = parseInt(($("#myInput").val()));
+                var spacing = parseInt(($("#newSpacing").val()));
+
+
+                // grab the colorsAll json object and turn it into an array
+                var colorsOnly = [];
+                _.each(colorsAll, function(v, k) {
+                    colorsOnly.push(v);
+                });
+                // console.log(colorsOnly)
+                //create an array called colorsOnly
+
+
+                ctx.drawImage(img, 0, 0);
+                callFullSene(ctx.getImageData(0, 0, inputImgWidth, inputImgHeight), val, spacing, colorsOnly);
+                $("#error-msg").text('LOADING')
+            } else {
+                setTimeout(arguments.callee, 50);
+                console.log('when does this happen?')
+            }
+        })();
+
+
+    };
+    reader.readAsDataURL(uploadedFile);
+
+
+});
+
+
+
+
+
 
 ///////////PUT EVERYTHING IN HERE///////////////
 //////////////PUT EVERYTHING IN HERE///////////////
-function callFullScene(val, spacing, colors) {
+function callFullSene(imgData, val, spacing, colors) {
 
-    if (svgstr === undefined) return;
+
 
     //create a new canvas, and once it's created...
     $('<div />', { id: 'canvas' }).appendTo('body').ready(function() {
@@ -70,9 +181,17 @@ function callFullScene(val, spacing, colors) {
         for (var i = 0; i < colors.length; i++) {
             var transformedColor = new Rune.Color(colors[i].r, colors[i].g, colors[i].b)
             colorsRune.push(transformedColor)
+
         }
-    
-        // console.log(svgstr)
+
+
+        // Synchronous tracing to SVG string
+        // pass in the ctx.drawImage information as the imgData that you set when you called the function
+        // do I ever change blurradius again?
+        // all pixel processing happens inside of here
+        var svgstr = ImageTracer.imagedataToSVG(imgData, { pal: colors, pathomit: 52, lcpr: 0, scale: 1, blurradius: 40 });
+
+
         //take these svgs and turn them into Rune objects -- paths
         var paths = svgToRune(String(svgstr));
 
@@ -81,8 +200,6 @@ function callFullScene(val, spacing, colors) {
             // create polygons from the path
             var polygons = paths[i].toPolygons({ spacing: spacing });
             var poly = polygons[0];
-
-         
 
 
 
@@ -99,15 +216,12 @@ function callFullScene(val, spacing, colors) {
             // }
             ////////////////////////////////
 
-            poly.vars.fill = colorsRune[Math.floor(Rune.random(colorsRune.length))]
-                // poly.vars.fill = new Rune.Color(255,255,255)
-                // poly.vars.stroke = new Rune.Color(0,0,0)
-            poly.vars.stroke = false
+
 
 
             if (document.getElementById("lines").checked == true) {
-
-                if (poly.vars.fill.values.rgb[0] == colors[0].r) {
+                //if colors is grey. drawlines
+                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 1].r) {
                     console.log('DRAW LINES')
                     RunContains("lines", poly, Math.floor(Rune.random(2, colors.length - 1)))
                 }
@@ -116,26 +230,28 @@ function callFullScene(val, spacing, colors) {
                 console.log('DRAW DOTS')
                 if (poly.vars.fill.values.rgb[0] == colors[3].r) {
 
-                    RunContains("dots", poly, colors.length - 1)
+                    RunContains("dots", poly, colors.length-1)
                 }
             }
-
             if (document.getElementById("circles").checked == true) {
-                if (poly.vars.fill.values.rgb[0] == colors[2].r) {
+                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 2].r) {
                     console.log('DRAW CIRCLES')
                     RunContains("circles", poly, colors.length - 3)
                 }
             }
 
             if (document.getElementById("cross").checked == true) {
-                if (poly.vars.fill.values.rgb[0] == colors[4].r) {
+                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 4].r) {
 
                     RunContains("cross", poly, colors.length - 5)
                 }
             }
 
-
-            // console.log(poly.vars.fill)
+            // poly.vars.fill = colorsB[Math.floor(Rune.random(colorsB.length))] 
+            poly.vars.fill = new Rune.Color(255,255,255)
+            poly.vars.stroke = new Rune.Color(0,0,0)
+            // poly.vars.stroke = false
+                // console.log(poly.vars.fill)
 
             poly.vars.vectors = simplify(polygons[0].vars.vectors, val, false);
 
@@ -145,26 +261,22 @@ function callFullScene(val, spacing, colors) {
             if (document.getElementById("no-fill").checked == true) {
 
                 r.stage.remove(poly)
-
             }
-        } //stop going through paths
-
-
+        }
+        // console.log(scene)
         r.draw();
         $("#error-msg").text(' ')
 
 
 
-
-
-        /////////PATTERNS ////////////PATTERNS ////////////PATTERNS //////
-        /////////PATTERNS ////////////PATTERNS ////////////PATTERNS //////
-        /////////PATTERNS ////////////PATTERNS ////////////PATTERNS //////
         function RunContains(pattern, container, colIndex) {
+            // console.log(colors[colIndex])
+            //convert the colors objects back to an array
 
             var size = 15;
             var sizeMin = 8;
             if (pattern == "dots") {
+
                 for (var x = 2; x < r.width; x += size + 0.5) {
                     for (var y = 2; y < r.height; y += size + 0.5) {
                         if (container.contains(x, y)) {
@@ -174,6 +286,9 @@ function callFullScene(val, spacing, colors) {
                     }
                 }
             } else if (pattern == "lines") {
+
+
+
                 for (var x = 2; x < r.width; x += size + 0.5) {
                     for (var y = 2; y < r.height; y += size + 0.5) {
                         var rand = Math.round(Math.random()) * 2 - 1
@@ -241,8 +356,8 @@ function callFullScene(val, spacing, colors) {
                 // console.log(rgbFill[0])
                 // create new rune.js path
                 var rpath = r.path(0, 0)
-                    // .fill(255)
-                    // .stroke(0)
+                .fill(255)
+                .stroke(0)
                     // .fill(parseInt(rgbFill[0]), parseInt(rgbFill[1]), parseInt(rgbFill[2]))
                     // .stroke(parseInt(rgbStroke[0]), parseInt(rgbStroke[1]), parseInt(rgbStroke[2]))
 

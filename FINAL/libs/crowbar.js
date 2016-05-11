@@ -48,13 +48,14 @@ function crowbar() {
         SVGSources.push(newSources[i]);
       };
     })
-    if (SVGSources.length > 1) {
-      createPopover(SVGSources);
-    } else if (SVGSources.length > 0) {
-      download(SVGSources[0]);
-    } else {
-      alert("The Crowbar couldn’t find any SVG nodes.");
-    }
+    download(SVGSources[2]);
+    // if (SVGSources.length > 1) {
+      // createPopover(SVGSources);
+    // } else if (SVGSources.length > 0) {
+      // download(SVGSources[0]);
+    // } else {
+      // alert("The Crowbar couldn’t find any SVG nodes.");
+    // }
   }
 
   function createPopover(sources) {

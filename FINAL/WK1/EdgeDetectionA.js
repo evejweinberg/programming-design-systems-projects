@@ -64,8 +64,8 @@ function setup() {
     sliderBlur.position(10, 40);
     sliderBlur.style('width', '100px');
 
-    img = loadImage(path)
-    // img = loadImage(imagearray[Math.floor(Rune.random(imagearray.length))]);
+    // img = loadImage(path)
+    img = loadImage(imagearray[0]);
 
 
     buffer = new jsfeat.matrix_t(w, h, jsfeat.U8C1_t);
@@ -77,6 +77,8 @@ background('rgba(0,255,0, 0.25)');
     var i = 0;
     image(img, 0, 0, w, h);
     // // var pix = img.get(x, y);
+    
+
     img.loadPixels();
     var pixels = img.pixels;
     //this array is 4194304 long, which is 1024x1024 x 4
@@ -136,7 +138,7 @@ background('rgba(0,255,0, 0.25)');
     
 
     image(result, 0, 0, w, h);
-    filter(INVERT);
+    // filter(INVERT);
     text("low threshold", 10, 10);
 text("blur", 10, 40);
 }

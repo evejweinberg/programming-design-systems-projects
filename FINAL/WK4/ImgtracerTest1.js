@@ -198,9 +198,14 @@ function callFullSene(imgData, val, spacing, colors) {
         for (var i = 0; i < paths.length; i++) {
 
             // create polygons from the path
+            var area = GetPathArea(paths[i])
+            if (area < 3000){
+                continue
+            }
             var polygons = paths[i].toPolygons({ spacing: spacing });
             var poly = polygons[0];
 
+            console.log(GetPathArea(paths[i]))
 
 
             //  /__  ___/ //   ) )       //    ) ) //   ) ) 
@@ -230,7 +235,7 @@ function callFullSene(imgData, val, spacing, colors) {
                 console.log('DRAW DOTS')
                 if (poly.vars.fill.values.rgb[0] == colors[3].r) {
 
-                    RunContains("dots", poly, colors.length-1)
+                    RunContains("dots", poly, colors.length - 1)
                 }
             }
             if (document.getElementById("circles").checked == true) {
@@ -248,9 +253,9 @@ function callFullSene(imgData, val, spacing, colors) {
             }
 
             // poly.vars.fill = colorsB[Math.floor(Rune.random(colorsB.length))] 
-            poly.vars.fill = new Rune.Color(255,255,255)
-            poly.vars.stroke = new Rune.Color(0,0,0)
-            // poly.vars.stroke = false
+            poly.vars.fill = new Rune.Color(255, 255, 255)
+            poly.vars.stroke = new Rune.Color(0, 0, 0)
+                // poly.vars.stroke = false
                 // console.log(poly.vars.fill)
 
             poly.vars.vectors = simplify(polygons[0].vars.vectors, val, false);
@@ -356,8 +361,8 @@ function callFullSene(imgData, val, spacing, colors) {
                 // console.log(rgbFill[0])
                 // create new rune.js path
                 var rpath = r.path(0, 0)
-                .fill(255)
-                .stroke(0)
+                    .fill(255)
+                    .stroke(0)
                     // .fill(parseInt(rgbFill[0]), parseInt(rgbFill[1]), parseInt(rgbFill[2]))
                     // .stroke(parseInt(rgbStroke[0]), parseInt(rgbStroke[1]), parseInt(rgbStroke[2]))
 
@@ -375,9 +380,28 @@ function callFullSene(imgData, val, spacing, colors) {
 
                 paths.push(rpath)
 
+
             });
 
             return paths;
+
+        }
+
+        function GetPathArea(path) {
+            var total = 0;
+            for (var i = 0; i < path.vars.anchors.length-1; i++) {
+                var j = (i + 1) % (path.vars.anchors.length-1)
+                var p1 = path.vars.anchors[i].vec1
+                var p2 = path.vars.anchors[j].vec1
+
+               total = total + p1.x * p2.y - p1.y * p2.x
+
+
+            }
+
+            return Math.abs(total*0.5)
+
+
         }
 
 

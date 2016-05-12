@@ -3,6 +3,7 @@ var colorsAll = {};
 var inputImgWidth = 1024;
 var inputImgHeight = 1024;
 var uploadedFile;
+var tempCols = []
 
 var myDropzone;
 var svgstr = undefined;

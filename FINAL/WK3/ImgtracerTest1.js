@@ -71,7 +71,7 @@ function callFullScene(val, spacing, colors) {
             var transformedColor = new Rune.Color(colors[i].r, colors[i].g, colors[i].b)
             colorsRune.push(transformedColor)
         }
-    
+
         // console.log(svgstr)
         //take these svgs and turn them into Rune objects -- paths
         var paths = svgToRune(String(svgstr));
@@ -82,7 +82,7 @@ function callFullScene(val, spacing, colors) {
             var polygons = paths[i].toPolygons({ spacing: spacing });
             var poly = polygons[0];
 
-         
+
 
 
 
@@ -98,6 +98,7 @@ function callFullScene(val, spacing, colors) {
 
             // }
             ////////////////////////////////
+            //change this to the closest color
 
             poly.vars.fill = colorsRune[Math.floor(Rune.random(colorsRune.length))]
                 // poly.vars.fill = new Rune.Color(255,255,255)
@@ -113,17 +114,25 @@ function callFullScene(val, spacing, colors) {
                 }
             }
             if (document.getElementById("dots").checked == true) {
-                console.log('DRAW DOTS')
                 if (poly.vars.fill.values.rgb[0] == colors[3].r) {
+                    var dotCol = Math.floor(Rune.random(0, colors.length - 1))
+                    if (dotCol == 3) {
+                        dotCol = 2
+                    }
 
-                    RunContains("dots", poly, colors.length - 1)
+                    console.log(' DOTS' + dotCol)
+                    RunContains("dots", poly, dotCol)
                 }
             }
 
             if (document.getElementById("circles").checked == true) {
                 if (poly.vars.fill.values.rgb[0] == colors[2].r) {
+                    var dotCol = Math.floor(Rune.random(0, colors.length - 1))
+                    if (dotCol == 2) {
+                        dotCol = 3
+                    }
                     console.log('DRAW CIRCLES')
-                    RunContains("circles", poly, colors.length - 3)
+                    RunContains("circles", poly, dotCol)
                 }
             }
 
@@ -243,12 +252,19 @@ function callFullScene(val, spacing, colors) {
                 var rpath = r.path(0, 0)
                     // .fill(255)
                     // .stroke(0)
-                    // .fill(parseInt(rgbFill[0]), parseInt(rgbFill[1]), parseInt(rgbFill[2]))
-                    // .stroke(parseInt(rgbStroke[0]), parseInt(rgbStroke[1]), parseInt(rgbStroke[2]))
+                    .fill(parseInt(rgbFill[0]), parseInt(rgbFill[1]), parseInt(rgbFill[2]))
+                    .stroke(parseInt(rgbStroke[0]), parseInt(rgbStroke[1]), parseInt(rgbStroke[2]))
 
                 // loop through all path data and call corresponding Rune.js functions.
                 var d = path.attr('d');
                 var cmds = parsePath(d);
+
+                var tempCol = {
+                    0:parseInt(rgbFill[0]),
+                    1:parseInt(rgbFill[1]),
+                    2:parseInt(rgbFill[2])
+                }
+                tempCols.push(tempCol)
 
                 for (var i = 0; i < cmds.length; i++) {
                     var cmd = cmds[i];

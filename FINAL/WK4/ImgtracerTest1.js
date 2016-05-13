@@ -11,6 +11,9 @@ var inputImgWidth = 1024;
 var inputImgHeight = 1024;
 var uploadedFile;
 
+var tracker = new clm.tracker();
+tracker.init(pModel);
+
 //////////////////////////////////////////
 /////////////DROP ZONE/////////////////
 //////////////////////////////////////////
@@ -121,6 +124,8 @@ $("#myButton").click(function() {
 //////////////PUT EVERYTHING IN HERE///////////////
 function callFullSene(imgData, val, spacing, colors) {
 
+    tracker.start(imgData);
+    var positions = tracker.getCurrentPosition();
 
 
     //create a new canvas, and once it's created...
@@ -195,78 +200,94 @@ function callFullSene(imgData, val, spacing, colors) {
         //take these svgs and turn them into Rune objects -- paths
         var paths = svgToRune(String(svgstr));
 
+        var biggestIndex = -1;
+        var biggestArea = 0;
+
+        for (var i=0; i < paths.length; i++) {
+            var area = GetPathArea(paths[i]);
+            if (area > biggestArea) {
+                biggestArea = area;
+                biggestIndex = i;
+            }
+        }
+
         for (var i = 0; i < paths.length; i++) {
 
             // create polygons from the path
-            var area = GetPathArea(paths[i])
-            if (area < 3000){
-                continue
-            }
-            var polygons = paths[i].toPolygons({ spacing: spacing });
-            var poly = polygons[0];
-
-            console.log(GetPathArea(paths[i]))
-
-
-            //  /__  ___/ //   ) )       //    ) ) //   ) ) 
-            //    / /    //   / /       //    / / //   / /  
-            //   / /    //   / /       //    / / //   / /   
-            //  / /    //   / /       //    / / //   / /    
-            // / /    ((___/ /       //____/ / ((___/ /     
-            //find out how many polygons are of each color
-
-            // if (poly.vars.fill.values.rgb[0] == colors[i].r) {
-            //     console.log('i should push into' + i)
-
+            // var area = GetPathArea(paths[i])
+            // if (area < 3000){
+            //     continue
             // }
-            ////////////////////////////////
+            
+            
+            var area = GetPathArea(paths[i])
+            if (area > 3000) {
+                var polygons = paths[i].toPolygons({ spacing: spacing });
+                var poly = polygons[0];
+
+                console.log(GetPathArea(paths[i]))
+
+
+                //  /__  ___/ //   ) )       //    ) ) //   ) ) 
+                //    / /    //   / /       //    / / //   / /  
+                //   / /    //   / /       //    / / //   / /   
+                //  / /    //   / /       //    / / //   / /    
+                // / /    ((___/ /       //____/ / ((___/ /     
+                //find out how many polygons are of each color
+
+                // if (poly.vars.fill.values.rgb[0] == colors[i].r) {
+                //     console.log('i should push into' + i)
+
+                // }
+                ////////////////////////////////
 
 
 
 
-            if (document.getElementById("lines").checked == true) {
-                //if colors is grey. drawlines
-                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 1].r) {
-                    console.log('DRAW LINES')
-                    RunContains("lines", poly, Math.floor(Rune.random(2, colors.length - 1)))
+                if (document.getElementById("lines").checked == true) {
+                    //if colors is grey. drawlines
+                    if (poly.vars.fill.values.rgb[0] == colors[colors.length - 1].r) {
+                        console.log('DRAW LINES')
+                        RunContains("lines", poly, Math.floor(Rune.random(2, colors.length - 1)))
+                    }
+                }
+                if (document.getElementById("dots").checked == true) {
+                    console.log('DRAW DOTS')
+                    if (poly.vars.fill.values.rgb[0] == colors[3].r) {
+
+                        RunContains("dots", poly, colors.length - 1)
+                    }
+                }
+                if (document.getElementById("circles").checked == true) {
+                    if (poly.vars.fill.values.rgb[0] == colors[colors.length - 2].r) {
+                        console.log('DRAW CIRCLES')
+                        RunContains("circles", poly, colors.length - 3)
+                    }
+                }
+
+                if (document.getElementById("cross").checked == true) {
+                    if (poly.vars.fill.values.rgb[0] == colors[colors.length - 4].r) {
+
+                        RunContains("cross", poly, colors.length - 5)
+                    }
+                }
+
+                // poly.vars.fill = colorsB[Math.floor(Rune.random(colorsB.length))] 
+                poly.vars.fill = new Rune.Color(255, 255, 255)
+                poly.vars.stroke = new Rune.Color(0, 0, 0)
+                    // poly.vars.stroke = false
+                    // console.log(poly.vars.fill)
+
+                // poly.vars.vectors = simplify(polygons[0].vars.vectors, val, false);
+
+                if (document.getElementById("no-fill").checked == true) {
+
+                    r.stage.remove(poly)
                 }
             }
-            if (document.getElementById("dots").checked == true) {
-                console.log('DRAW DOTS')
-                if (poly.vars.fill.values.rgb[0] == colors[3].r) {
-
-                    RunContains("dots", poly, colors.length - 1)
-                }
-            }
-            if (document.getElementById("circles").checked == true) {
-                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 2].r) {
-                    console.log('DRAW CIRCLES')
-                    RunContains("circles", poly, colors.length - 3)
-                }
-            }
-
-            if (document.getElementById("cross").checked == true) {
-                if (poly.vars.fill.values.rgb[0] == colors[colors.length - 4].r) {
-
-                    RunContains("cross", poly, colors.length - 5)
-                }
-            }
-
-            // poly.vars.fill = colorsB[Math.floor(Rune.random(colorsB.length))] 
-            poly.vars.fill = new Rune.Color(255, 255, 255)
-            poly.vars.stroke = new Rune.Color(0, 0, 0)
-                // poly.vars.stroke = false
-                // console.log(poly.vars.fill)
-
-            poly.vars.vectors = simplify(polygons[0].vars.vectors, val, false);
 
             // remove the path from the stage
             paths[i].removeParent();
-
-            if (document.getElementById("no-fill").checked == true) {
-
-                r.stage.remove(poly)
-            }
         }
         // console.log(scene)
         r.draw();
